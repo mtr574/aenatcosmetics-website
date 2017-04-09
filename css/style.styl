@@ -1,0 +1,4588 @@
+@import 'nib'
+
+// Pixel to rem converter
+
+$base_font_size = 16
+$px = ( 1 / $base_font_size ) rem
+
+px( val, base = "none" )
+	if base == "none"
+		( val / $base_font_size ) rem
+	else
+		( val / base ) em
+
+
+fixed_centered()
+	position absolute
+	top 50%
+	left 50%
+	margin-left (@width / 2) * -1
+	margin-top (@height / 2) * -1
+	
+relative_centered()
+	top 50%
+	transform translateY(-50%)
+
+relative_centered_2()
+	left 50%
+	transform translateX(-50%)
+
+h_centered_1()
+	left 0
+	right 0
+	margin: 0 auto;
+
+h_centered_2()
+	left 50%
+	
+
+// Golden Ratio 
+$phi = 1.618
+$golden_major = 0.618
+$golden_minor = 0.382
+
+step($start, $steps, $multiplier = $start, $unit="none")
+	for i in (1..$steps)
+		$start = $start*$multiplier
+	if $unit != "none"
+		unit($start, $unit)
+	else
+		$start
+
+
+// Available fonts 
+$icon_font = 'salon-font'
+$rambla = 'Rambla', sans-serif
+$lato = 'Lato', sans-serif
+$tenorsans = 'Tenor Sans', sans-serif
+$josefinsans = 'Josefin Sans', sans-serif
+$arizonia = 'Arizonia', cursive
+$poiretone = 'Poiret One', sans-serif
+
+$font_nav = $lato
+$font_hero = $josefinsans
+$font_hl_content = $poiretone
+$font_h3_content = $tenorsans
+$font_paragraph = $rambla
+$font_signature = $arizonia
+$font_filter = $lato
+
+$header_height = 80*$px
+
+
+$frame_color = #fff
+$bg_dark_color = #222326
+$bg_light_color = #F7F7F7
+$font_dark_color = #555555
+$font_light_color = #fff
+$header_color = $frame_color
+$highlight_color = #DBFCFF
+
+$font_color_paragraph = lighten($font_dark_color,35%)
+$bg_content = lighten($bg_dark_color,97%)
+$preload_bg_color = lighten($bg_dark_color,15%)
+$hero_divider_color = alpha($font_dark_color,0.5)
+$mobilenav_divider_color = alpha($font_dark_color,0.1)
+$mobilesubnav_border_color = darken($frame_color,65%)
+$mobilesubnav_divider_color = darken($frame_color,75%)
+$scrollbartrack_color = lighten($bg_dark_color,90%)
+$list_divider_color = lighten($bg_dark_color,75%)
+
+
+/*------------------------------------------------------------------
+[Table of contents]
+
+1. Basic Styling
+2. Scrollbars
+3. General
+4. Video / #videowrap
+5. Button / a.button
+6. Slider Buttons / .slick-prev, .slick-next
+7. Pager / .pagerlist
+8. Intro / #intro
+9. End section / #end
+10. Multi-Page page transitions / body.animtrans
+11. One-Page animated sections / body.animsections
+12. header / <header>
+	12.1. Mobile navigation / #mobilenav
+	12.2. Social menu / #socialshare
+	12.3. Alternative Header Positions with menu adjustments / .bottomheader, .topheader
+ 
+13. Navigation
+	13.1. Horizontal Sub-Menu / .menu-horizontal
+	13.2. Vertical Sub-Menu / .menu-vertical
+	13.3. Mobile menu / .menu-mobile
+
+14. Sections General Styles
+15. Hero section / #hero
+16. Section Modules
+	16.1. 2 Columns / .col-2
+		16.1.1. Default / .default-left, .default-right
+		16.1.2. Panorama / .panorama-left, .panorama-right
+		16.1.3. Testimonials / .testimonials-left, .testimonials-right
+		16.1.4. Slider / .slider-left, .slider-right
+		16.1.4. Grid / .grid-left, .grid-right
+
+	16.2. 3 Columns / .col-3
+		16.2.1.  Headline - Text - Picture / .hl-text-pic
+		16.2.2.  Headline - Picture - Text / .hl-pic-text
+		16.2.3.  Picture - Text - Headline / .pic-text-hl
+		16.2.4.  Picture - Headline - Text / .pic-hl-text
+		16.2.5.  Text - Headline - Picture / .text-hl-pic
+		16.2.7.  Text - Picture - Headline / .text-pic-hl
+		16.2.8.  Headline - Text - Slider / .hl-text-slider
+		16.2.9.  Slider - Text - Headline / .slider-text-hl
+		16.2.10. Slider - Headline - Text  / .slider-hl-text
+		16.2.11. Text - Headline - Slider / .text-hl-slider
+		16.2.12. Stripes / .stripes
+		16.2.13. Sinle Post / .single-post
+			16.2.13.1. Comments / .comments
+			16.2.13.2. Commentsform / .commentsform
+			
+	16.3. Carousel / .carousel
+		16.3.1.  News / .news
+
+	16.4. Tophead / .tophead
+		16.4.1.  Carousel / .carousel
+		16.4.2.  Polaroid / .polaroid
+		16.4.4.  Mobile Filter Box / .togglebox
+		
+	16.5. Advanced Filter (MixItUP) / .mixitup
+		16.5.1. MixItUp Filter New / .news
+		16.5.1. MixItUp Filter Services / .services
+		
+17. Photostack polaroid gallery / .photostack
+18. Forms / <form>
+19. Content Columns / .columns-1-2, .columns-2-2
+20. Responsive styles, Media Queries
+	20.1. Screen max-height: 767px - used by JS to disable panelsnap
+	20.2. Screen min-width: 1280px - big resolution marker
+	20.3. Screen max-width: 1280px - Notebook 
+	20.4. Screen max-width: 1024px - Tablet 
+	20.5. Screen max-width: 800px  - Small Tablet 
+	20.6. Screen max-width: 568px  - Smart Phone 
+	20.7. Screen max-width: 480px  - Small Smart Phone 
+
+ 
+-------------------------------------------------------------------*/
+
+
+/* 
+Basic Styling
+*/
+
+*
+	box-sizing border-box
+
+html, body
+	height 100%
+
+.hidden
+	display none
+	
+/* Scrollbars
+*/
+
+::-webkit-scrollbar-track
+	background-color $scrollbartrack_color
+
+::-webkit-scrollbar
+	width: 10px;
+
+::-webkit-scrollbar-thumb
+	background-color: $bg_dark_color
+
+
+/* General
+*/
+
+html,body
+	margin 0
+	padding 0
+
+body
+	background-color $frame_color
+	color $font_dark_color
+	font-family $font_paragraph
+	overflow-y none
+
+	.scrollarrow_left, .scrollarrow_right
+		width 40*$px
+		height 140*$px
+		display block
+		position fixed
+		text-align center
+		vertical-align bottom
+		color $font_dark_color
+		opacity 0.15
+		bottom 0
+		font-size 160*$px
+		z-index 12
+		transition all 0.3s ease-in-out
+		
+		&.reverse
+			transform rotate(180deg)
+			bottom auto
+			top 0
+	
+	.scrollarrow_left
+		left 0
+
+	.scrollarrow_right
+		right 0
+
+/* Video
+*/
+
+#videowrap		
+	position fixed
+	width 100%
+	height 100%
+	top 0
+	left 0
+	z-index -1
+
+	
+/* Button 
+*/
+
+a.button
+	border 1px solid $font_color_paragraph
+	padding 1rem step(1, 2, $phi, rem)
+	text-decoration none
+	color $font_color_paragraph
+	text-transform uppercase
+	font-size 12*$px
+	white-space nowrap
+	text-align center
+	letter-spacing 0.5*$px
+	transition all 0.3s ease-in-out
+	
+	&:hover
+		border 1px solid $bg_dark_color
+		background-color $bg_dark_color
+		color $frame_color
+		
+a.button_dark
+	border 1px solid $font_color_paragraph
+	padding 1rem step(1, 2, $phi, rem)
+	text-decoration none
+	color $font_color_paragraph
+	text-transform uppercase
+	font-size 12*$px
+	white-space nowrap
+	text-align center
+	letter-spacing 0.5*$px
+	transition all 0.3s ease-in-out
+	
+	&:hover
+		border 1px solid $bg_dark_color
+		background-color $frame_color
+		color $bg_dark_color
+
+/* Slider Buttons 
+*/
+
+.slick-prev-light, 
+.slick-next-light
+	position absolute
+	background-color transparent
+	color $font_dark_color
+	cursor pointer
+	text-align center
+	padding 0
+	outline 0
+	border 0
+	width 60*$px
+	height 60*$px
+	line-height @height
+	margin-top -(@height/2)
+	animation fadeIn 0.5s ease
+	top 50%
+	font-size 32*$px
+
+	&:hover
+		color $font_light_color
+
+
+.slick-prev-dark, 
+.slick-next-dark,
+.pan_controls
+	position absolute
+	background-color $bg_dark_color
+	color $font_color_paragraph
+	text-align center
+	cursor pointer
+	padding 0
+	outline 0
+	border 0
+	width 60*$px
+	height 60*$px
+	line-height @height
+	animation fadeIn 0.5s ease
+	bottom 0
+	font-size 32*$px
+	
+	&:hover
+		color $font_light_color
+
+/* Pager 
+*/
+
+.pagerlist
+	z-index 9
+	position absolute
+	bottom 0
+	relative_centered_2()
+	
+	&.dark
+	
+		.pager
+			display block
+			float left
+			background-color $bg_dark_color
+			color $font_color_paragraph
+			cursor pointer
+			outline 0
+			border 0
+			width 60*$px
+			height 60*$px
+			line-height @height
+			animation fadeIn 0.5s ease
+			bottom 0
+			font-size 32*$px
+			text-align center
+			-webkit-font-smoothing antialiased
+			
+			&:hover
+				color $font_light_color
+			
+			&.active	
+				color $font_light_color
+
+			span
+				display block
+				font-family $lato
+				font-weight 700
+				font-size 11*$px
+				line-height 60*$px
+		
+		.page-next
+			
+			span 
+				display none
+			
+			&:before
+				display block
+				content '\e602'
+				width 100%
+				height 100%
+				font-family $icon_font
+				font-size 32*$px
+				speak: none
+				font-style normal
+				font-weight normal
+				font-variant normal
+				text-transform none
+				-webkit-font-smoothing none
+									
+			
+		.page-prev
+			span
+				display none			
+
+			&:before
+				display block
+				content '\e601'
+				width 100%
+				height 100%
+				font-family $icon_font
+				font-size 32*$px
+				speak none
+				font-style normal
+				font-weight normal
+				font-variant normal
+				text-transform none
+				-webkit-font-smoothing none
+	
+	&.light
+		.pager
+			display block
+			float left
+			color $font_color_paragraph
+			cursor pointer
+			outline 0
+			border 0
+			width 60*$px
+			height 60*$px
+			line-height @height
+			animation fadeIn 0.5s ease
+			bottom 0
+			font-size 32*$px
+			text-align center
+			-webkit-font-smoothing antialiased
+			
+			&:hover
+				color $font_dark_color
+			
+			&.active	
+				color $font_dark_color
+
+			span
+				display block
+				font-family $lato
+				font-weight 700
+				font-size 11*$px
+				line-height 60*$px
+		.page-next
+			
+			span 
+				display none
+			
+			&:before
+				display block
+				content '\e602'
+				width 100%
+				height 100%
+				font-family $icon_font
+				font-size 32*$px
+				speak: none
+				font-style normal
+				font-weight normal
+				font-variant normal
+				text-transform none
+				-webkit-font-smoothing none
+									
+			
+		.page-prev
+			span
+				display none			
+
+			&:before
+				display block
+				content '\e601'
+				width 100%
+				height 100%
+				font-family $icon_font
+				font-size 32*$px
+				speak none
+				font-style normal
+				font-weight normal
+				font-variant normal
+				text-transform none
+				-webkit-font-smoothing none
+
+/* Intro */
+
+#intro
+	width 100%
+	height 100%
+	position absolute
+	top 0
+	z-index 12
+	border 40*$px solid $frame_color
+	background-color $bg_dark_color
+	
+	&.loaded
+		animation animLoadedHeader 1.5s cubic-bezier(0.7,0,0.3,1) forwards;
+	
+	.logo 
+		background-image url(../img/logo-intro.png) 
+		background-position center center
+		background-repeat no-repeat
+		background-size contain
+		width 252*$px
+		height 252*$px
+		fixed_centered()
+		animation bounceInUp 2s
+		
+	.loading
+		width 60*$px
+		height 60*$px
+		position absolute
+		left 0
+		right 0	
+		margin 0 auto
+		bottom 20%
+		text-align center
+		animation bounceInUp 3s
+		
+		.loader1
+			position relative
+			width 100%
+			height 100%
+			border-radius 50%
+			border-top: 2*$px solid $preload_bg_color
+			border-right: 2*$px solid $preload_bg_color
+			border-bottom: 2*$px solid $preload_bg_color
+			border-left: 2*$px solid $frame_color
+			animation load1 1.1s infinite linear
+
+			&:after
+				width 100%
+				height 100%
+				border-radius 50%
+		
+		.loader2
+			background-color $preload_bg_color
+			position relative
+			transform translateZ(0)
+			animation-delay -0.16s
+			animation load2 1s infinite ease-in-out
+			width 2*$px
+			height 6*$px
+			margin 0 auto
+			
+			&:after, &:before
+				position absolute
+				top 0
+				content ''
+				background-color $preload_bg_color
+				animation load2 1s infinite ease-in-out
+				width 2*$px
+				height 6*$px
+			
+			&:after
+				left 4*$px
+			
+			&:before
+				left -4*$px
+				animation-delay	-0.32s
+		
+		.loader3
+			border-radius 50%
+			width 10*$px
+			height 10*$px
+			margin 0 auto
+			animation-fill-mode both
+			animation load3 1.8s infinite ease-in-out
+			position relative
+			transform translateZ(0)
+			animation-delay -0.16s
+			
+			&:before, &:after
+				border-radius 50%
+				width 10*$px
+				height 10*$px
+				animation-fill-mode both
+				animation load3 1.8s infinite ease-in-out
+				position absolute
+				top 0
+				content ''
+			
+			&:before
+				left -15*$px
+				animation-delay -0.32s
+
+			&:after
+				left 15*$px
+
+/* Intro Animations */
+
+@keyframes animLoadedHeader
+	to 
+		transform: translate3d(0,-100%,0)
+
+@keyframes load1 
+	0%
+		transform rotate(0deg)
+	100% 
+		transform rotate(360deg)
+
+@keyframes load2
+	0%, 80%, 100%
+		box-shadow 0 0 $preload_bg_color
+		height 3*$px
+	40%
+		box-shadow 0 -12*$px $preload_bg_color
+		height 12*$px
+
+@keyframes load3
+	0%, 80%, 100%
+		box-shadow 0 15*$px 0 -10*$px $preload_bg_color
+
+	40%
+		box-shadow 0 15*$px 0 0 $preload_bg_color
+
+/* The End */
+
+#end
+	width 100%
+	height 100%
+	border 40*$px solid $frame_color
+	background-color $bg_dark_color
+	position relative
+	text-align center
+	color $font_light_color
+	display table
+	z-index 99
+	
+	.content
+		display table-cell
+		vertical-align middle
+	
+	.copyright
+		font-size 11*$px
+		margin-left auto
+		margin-right auto
+		color $font_color_paragraph
+		letter-spacing 1px
+			
+	.backtotop
+		font-size 11*$px
+		text-transform uppercase
+		position absolute
+		cursor pointer
+		bottom 10%
+		left 0
+		width 100%
+		text-align center
+		color $font_color_paragraph
+		font-family $font_paragraph
+		
+		
+		&:before
+			font-family $icon_font
+			position absolute
+			width 100%
+			text-align center
+			top -1.5em
+			left 0
+			font-size 32*$px
+			transition all 0.4s ease-in-out
+			
+		&:hover
+			&:before
+				top -2em
+
+/* Animated Page Transitions */
+
+/* Multi-Page */
+
+body.animtrans
+	.animsition-overlay-slide
+		background-color $bg_dark_color
+		z-index 9999
+
+body.animtrans.topheader
+	.animsition-overlay-slide
+		border-top $header_height solid $frame_color
+		border-bottom 40*$px solid $frame_color
+		border-right 40*$px solid $frame_color
+
+body.animtrans.bottomheader
+	.animsition-overlay-slide
+		border-bottom $header_height solid $frame_color
+		border-top 40*$px solid $frame_color
+		border-right 40*$px solid $frame_color
+
+/* One-Page */
+
+
+body.animsections
+	overflow-y scroll
+	overflow-x hidden
+	
+	section, #hero
+		position absolute
+		width 100%
+		height 100%
+		opacity 0
+		z-index 0
+	
+		&.active
+			opacity 1
+			z-index 2
+				
+/* Header */
+
+header
+	width 100%
+	padding 0 40*$px
+	z-index 10
+	position relative
+	line-height $header_height
+	height $header_height
+	background-color $header_color
+
+	h1
+		position absolute
+		display block
+		font-weight normal
+		margin 0
+		padding 0
+		line-height 0
+		font-size 0
+		height 100%
+		z-index: 9
+
+		a
+			display block
+			width 100%
+			height 100%
+			
+			img
+				height 100%
+				width auto
+
+	#mobilenav
+		position absolute
+		right 20*$px
+		bottom 0
+		$hoff = 40*$px
+		width "calc(100% - %s)" % $hoff
+		transition all 0.4s ease-in-out
+
+		&.on
+			nav
+				visibility visible
+				opacity 1
+				
+			#mobilenav_trigger
+				background-color $bg_dark_color
+				color $font_light_color				
+		
+		#mobilenav_trigger
+			position absolute
+			right 0
+			width 37*$px
+			text-align center
+			line-height 60*$px
+			font-size 32*$px
+			cursor pointer
+			bottom 0
+			display block
+			color $font_color_paragraph
+			transition all 0.2s ease-in-out
+			
+			&:before
+				content "\e613"					
+
+			&:hover
+				background-color $bg_dark_color
+				color $font_light_color	
+			
+			&.close
+				&:before
+					content "\e612"		
+		
+		nav
+			visibility hidden
+			opacity 0
+			position absolute
+			bottom 60*$px
+			font-family $lato
+			font-weight 700
+			z-index 10
+			width 100%
+			overflow-x hidden
+			overflow-y auto
+			transition all 0.4s ease-in-out
+			background-color transparent
+			
+		nav > ul
+			border 2*$px solid $bg_dark_color
+			list-style none
+			margin 0
+			padding 0
+			z-index: 8
+			
+		
+	#socialshare
+		position absolute
+		right 0
+		bottom 0
+		transition all 0.4s ease-in-out
+		
+		#socialshare_trigger
+			position absolute
+			right 40*$px
+			width 37*$px
+			text-align center
+			font-size 32*$px
+			cursor pointer
+			bottom 0
+			display block
+			color $font_color_paragraph
+			line-height $header_height
+			transition all 0.4s ease-in-out
+			
+			&:before
+				content "\e60f"
+				
+		nav
+			position absolute
+			visibility hidden
+			opacity 0
+			bottom $header_height
+			right 40*$px
+			background-color $bg_dark_color
+			color $font_light_color
+			font-family $lato
+			font-weight 700
+			padding 2em 0
+			z-index 10
+			transition all 0.4s ease-in-out
+			box-shadow -4*$px -4*$px 4*$px 0px alpha($frame_color,0.1)
+			
+			ul
+				list-style none
+				margin 0
+				padding 0
+				z-index: 8
+			
+				li
+					text-align right
+					line-height 2em
+					
+					a
+						color $font_light_color
+						text-decoration none
+						text-transform uppercase
+						font-size 11*$px
+						display block
+						padding 0 2.5em 0 4em
+						position relative
+						
+						&:after
+							content ''
+							width 3*$px
+							height 100%
+							position absolute
+							right 0
+							top 0
+							background-color $font_light_color
+							visibility hidden
+							opacity 0
+							transition all 1s ease-out
+						
+						&:hover
+							color $font_color_paragraph
+							transition all 1s ease-out
+							
+							&:after
+								visibility visible
+								opacity 1
+
+		&:hover
+			nav
+				visibility visible
+				opacity 1
+			
+			#socialshare_trigger
+				background-color $bg_dark_color
+				color $font_light_color	
+/*
+Alternative Header Positions with menu adjustments
+*/
+				
+body.bottomheader header
+	position fixed
+	bottom 0
+
+body.bottomheader section
+	padding 40*$px 40*$px $header_height 40*$px
+	
+
+header.stuck, body.topheader header
+	position fixed
+	top 0
+	
+	#socialshare
+		top 0
+		
+		nav
+			bottom auto
+			top $header_height
+			box-shadow -4*$px 4*$px 4*$px 0px alpha($frame_color,0.1)
+
+	#mobilenav
+		top 0
+		
+		nav
+			bottom auto
+			top 60*$px
+
+
+	.menu-horizontal
+		ul
+			li
+				a
+					&:before
+						top 0
+						bottom auto
+						
+				.sub-menu
+					top $header_height
+					bottom auto
+					
+					a
+						&:before
+							bottom auto
+							top 0
+					
+					.sub-menu
+						margin-bottom 0
+						margin-top 50*$px	
+						top 0	
+	
+	.menu-vertical
+		ul
+			li
+				a
+					&:before
+							top -1*$px
+							bottom auto
+				
+				.sub-menu
+					bottom auto
+					top $header_height
+					
+					.sub-menu
+						bottom auto
+						top 0
+
+
+/* Navigation */
+/* Horizontal Sub-Menu */
+.menu-horizontal
+	display table
+	text-align center
+	width 100%
+	position relative
+
+	ul
+		margin 0
+		padding 0
+		line-height 0
+		font-size 0
+		
+		li
+			display inline-block
+			height 100%
+			line-height $header_height
+			
+			&:hover > a:before
+				opacity 1
+				animation fadeInDown 0.5s
+			a
+				text-decoration none
+				color $font_dark_color
+				cursor pointer
+				padding 0 15*$px
+				height 100%
+				display block
+				font-family $font_nav
+				font-weight 700
+				font-size 11*$px
+				letter-spacing 0.55*$px
+				text-transform uppercase
+				position relative
+				
+				&.active,
+				&.activeparent
+					&:before
+						opacity 1
+						animation fadeInDown 0.5s
+										
+				&:before
+					content ''
+					display block
+					position absolute
+					bottom 0
+					left 0
+					width 100%
+					height 2*$px
+					background-color $font_dark_color
+					opacity 0
+
+			&:hover > .sub-menu
+				visibility visible
+				opacity 1
+			
+			.sub-menu
+				visibility hidden
+				opacity 0
+				position absolute
+				background-color $bg_dark_color
+				border-bottom 1px solid alpha($frame_color,0.3)
+				left 0
+				$leftrem = @left * 2
+				width 100%
+				text-align center
+				line-height 50*$px
+				bottom $header_height
+				font-size 10*$px
+				transition opacity 1s ease-out, visibility 0.1s 0.1s linear
+
+				a
+					color $font_light_color
+					
+					&:before
+						background-color $font_light_color
+						bottom -2*$px
+
+				li
+					line-height 50*$px
+
+					&:hover > .sub-menu
+						visibility visible
+						opacity 1
+				
+				.sub-menu
+					visibility hidden
+					opacity 0
+					position absolute
+					background-color $bg_dark_color
+					border-top 1px solid alpha($frame_color,0.3)
+					left 0
+					$leftrem = @left * 2
+					width 100%
+					text-align center
+					line-height 50*$px
+					bottom 0
+					margin-bottom 50*$px
+					font-size 10*$px
+					transition opacity 1s ease-out 0s, visibility 0.1s 0.1s linear 0s
+
+/* Vertical Sub-Menu */
+.menu-vertical
+	display table
+	text-align center
+	width 100%
+	position relative
+
+	ul
+		margin 0
+		padding 0
+
+		li
+			display inline-block
+			height 100%
+			position relative
+			
+			&.has-sub
+				&:hover > a
+					background-color $bg_dark_color
+					color $font_light_color
+						
+			a
+				text-decoration none
+				color $font_dark_color
+				cursor pointer
+				padding 0 15*$px
+				height 100%
+				display block
+				font-family $font_nav
+				font-weight 700
+				font-size 11*$px
+				letter-spacing 0.55*$px
+				text-transform uppercase
+				position relative
+
+				&:before
+					content ''
+					display block
+					position absolute
+					bottom 1*$px
+					left 0
+					width 100%
+					height 2*$px
+					background-color $font_dark_color
+					opacity 0						
+				
+				&.active,
+				&.activeparent
+					&:before
+						opacity 1
+						animation fadeInDown 0.5s
+				
+
+			&:hover > .sub-menu
+				visibility visible
+				opacity 1
+				
+			.sub-menu
+				visibility hidden
+				opacity 0
+				position absolute
+				background-color $bg_dark_color
+				left 0
+				text-align left
+				bottom $header_height
+				padding 2em 0
+				cursor pointer
+				transition all 0.5s ease-in-out
+				border-bottom 1px solid alpha($frame_color,0.1)
+				border-left 1px solid alpha($frame_color,0.1)
+				border-right 1px solid alpha($frame_color,0.1)
+				
+				li
+					display block
+					line-height 2em
+					white-space nowrap
+					position relative
+					
+					&.has-sub
+						&:hover
+							&:after
+								content ''
+								display block
+								background-color $bg_dark_color
+								width 8*$px
+								height 8*$px
+								position absolute
+								right -4*$px
+								top 50%
+								margin-top -4*$px
+								transform rotate(45deg)
+					
+					a
+						color $font_color_paragraph
+						text-decoration none
+						text-transform uppercase
+						font-size 11*$px
+						display block
+						padding 0 4em 0 1.5em
+						position relative
+						transition all 0.3s ease-in
+						
+						&:before
+							display none
+						
+						&:after
+							content ''
+							position absolute
+							top 0
+							left 0
+							width 3*$px
+							height 100%
+							background-color $font_light_color
+							opacity 0
+							visibility hidden
+							transition all 0.3s ease-in
+										
+					&:hover > a:after
+						opacity 1
+						visibility visible
+					
+					&:hover > .sub-menu
+						visibility visible
+						opacity 1
+					
+					&:hover > a
+						color $font_light_color	
+				
+					.sub-menu
+						visibility hidden
+						opacity 0
+						position absolute
+						background-color $bg_dark_color
+						left 100%
+						bottom 0
+						margin-left 5*$px
+						text-align left
+						padding 2em 0
+						cursor pointer
+						transition all 0.5s ease-in-out
+/* Mobile Menu */
+.menu-mobile
+	ul
+		background-color $frame_color
+
+		li
+			display block
+			text-align center
+			line-height 50*$px
+			border-top 1px solid $mobilenav_divider_color
+			position relative
+			cursor pointer
+			
+			&:first-child
+				border-top 0
+				
+			&:hover
+				background-color $bg_dark_color
+
+				a
+					color $font_light_color
+				
+				.sub-trigger
+					color $font_light_color	
+
+			.sub-trigger
+				font-family $icon_font
+				display block
+				line-height 50*$px
+				font-size 32*$px
+				right 0
+				top 0
+				position absolute
+				color $font_dark_color
+				z-index 14
+				padding-left 30*$px
+				
+				&:after
+					content '\e60c'
+					display block
+					
+				&:hover
+					color $font_color_paragraph
+					line-height 55*$px
+
+			a
+				text-decoration none
+				cursor pointer
+				padding 0 15*$px
+				height 100%
+				display block
+				font-family $font_nav
+				font-weight 700
+				font-size 11*$px
+				letter-spacing 0.55*$px
+				text-transform uppercase
+				position relative
+				color $font_dark_color
+				z-index 11
+
+			.sub-menu
+				visibility hidden
+				opacity 0
+				display block
+				height 0px
+				transition all 0.7s ease-in-out
+				padding 0
+				background-color $bg_dark_color
+				border-left 12*$px solid $frame_color
+				border-right 12*$px solid $frame_color
+				
+				a
+					font-size 10*$px
+				
+				li
+					border-top 1px solid $mobilesubnav_divider_color
+					
+					&:first-child
+						border-top 0
+					
+					&:hover
+						a
+							color $font_color_paragraph	
+					
+			&.open-sub
+				background-color $bg_dark_color
+				
+				a
+					color $font_light_color
+
+			&.open-sub > .sub-menu
+				visibility visible
+				opacity 1
+				height auto	
+				border-top 12*$px solid $mobilesubnav_divider_color
+.no-js
+	header
+		position fixed
+		top 0
+
+
+/* Sections General Styles */
+
+section
+	display block
+	padding $header_height 40*$px 40*$px 40*$px
+	height 100%
+	position relative
+	
+	&.active
+		article
+			background-color $bg_content
+	
+	&.grid.active
+		article
+			background-color $frame_color
+
+	article, .content
+		height 100%
+		position relative
+	
+	&.grid
+		article, .content
+			background-color $frame_color	
+	
+	&#hero
+		
+		padding 40*$px 40*$px 0 40*$px
+		min-height 300*$px
+		$menuheight = $header_height
+		height "calc(100% - %s)" % $menuheight
+		
+		.sliderwrapper
+			height 100%
+			
+			.slick-slider
+				height 100%
+		
+	article
+		background-color $frame_color
+		font-family $font_paragraph
+		font-size 13*$px
+		line-height 26*$px
+		color $font_color_paragraph
+		
+		a
+			text-decoration none
+			color $font_dark_color
+			
+			&:hover
+				color $font_color_paragraph
+		
+		h1
+			font-family $font_hl_content
+			text-transform uppercase
+			font-weight normal
+			letter-spacing 2*$px
+			font-size 42*$px
+			line-height 52*$px
+			
+			span
+				display block
+				font-style normal
+				color inherit
+							
+		h2, h3, h4, h5, h6
+			font-family $font_hl_content
+			text-transform uppercase
+			font-weight normal
+			margin-top 1.5em
+			margin-bottom 1em
+			line-height 120%
+			
+			&:first-child
+				margin-top 0.7em
+
+		h2
+			font-size 35*$px
+								
+		h3
+			font-size 28*$px
+								
+		h4
+			font-size 21*$px
+
+		h5
+			font-size 18*$px
+								
+		h6
+			font-size 16*$px
+								
+								
+
+		.signature
+			font-family $font_signature
+			color $font_dark_color
+			font-weight normal
+			font-size 18*$px
+			line-height 26*$px
+			margin-top 1em
+			display block
+		
+		.lighted
+			background-color $highlight_color
+		
+		.dropcap
+			font-size 50*$px
+			line-height 26*$px
+			display block
+			float left
+			padding-right 7*$px
+			padding-top 15*$px
+			vertical-align top
+		
+		blockquote
+			margin-right 0
+			margin-top 0
+			margin-left 40*$px
+			margin-bottom 1em
+			position relative
+			
+			&:before
+				content "\e60a"
+				display block
+				position absolute
+				left -40*$px
+				top 3*$px
+				font-family $icon_font
+				font-size 32*$px
+				width 35*$px
+				height 35*$px
+				
+		
+
+
+/* Hero Section */
+
+body.topheader #hero
+	padding-top $header_height
+	$menuheight = $header_height
+	height "calc(100% - %s)" % ($menuheight/2)
+
+#hero
+	position relative
+	
+	.tagline
+		position absolute
+		top 10%
+		text-align center
+		h_centered_1()
+		
+		h1
+			font-family $font_hero
+			font-size 42*$px
+			font-weight normal
+			text-transform uppercase
+			letter-spacing 9*$px
+			position relative
+			margin-top 1em
+			margin-bottom 1.3em
+			margin-right 1em
+			margin-left 1em
+			
+			&:after
+				content ''
+				display block
+				border-top 1px solid $hero_divider_color
+				width 70*$px;
+				bottom -0.5em
+				position absolute
+				h_centered_1()
+			
+		h2
+			font-family $font_hero
+			font-size 16*$px
+			font-weight 600
+			text-transform uppercase
+			margin-top 2em
+			margin-bottom 1.7em
+			letter-spacing 4*$px
+			margin-right 1em
+			margin-left 1em
+			
+		.subinfo
+			font-family $font_hero
+			font-size 16*$px
+			font-weight 600
+			font-style italic
+			margin-right 1em
+			margin-left 1em
+
+.no-js
+	.content
+	
+		&.imgLiquid
+			overflow hidden
+
+/* Section Modules */
+
+section
+
+	/* 2 Columns */
+		 
+	&.col-2
+		.hlblock
+			display inline-block
+			position relative
+			width 33.333%
+			height 100%
+			vertical-align top
+			background-color $bg_dark_color
+			color $font_color_paragraph
+			padding-top 10%
+			padding-bottom 2%
+			
+			h1
+				margin 0
+				padding 0  0 10% 0
+				color $font_light_color
+
+			a
+				text-decoration none
+				color $font_color_paragraph
+				
+				&:hover
+					color $font_light_color
+				
+		.content
+			display inline-block
+			position relative
+			width 66.6666%
+			height 100%
+			vertical-align top
+			
+	/* Default */
+
+	&.default-left
+		.hlblock
+			padding-left 2%
+			padding-right 5%
+			text-align right
+		
+		.content
+			padding 10% 5% 2% 5%
+			overflow-x hidden
+			overflow-y auto
+			
+			p:first-child
+				margin-top 1.83em
+
+	&.default-right
+		.hlblock
+			padding-right 2%
+			padding-left 5%
+			text-align left
+			
+		.content
+			padding 10% 5% 2% 5%
+			overflow-x hidden
+			overflow-y auto
+			
+			p:first-child
+				margin-top 1.83em
+
+	/* Panorama */
+	
+	&.panorama-left
+		.hlblock
+			padding-left 2%
+			padding-right 5%
+			text-align right
+					
+				
+		.panorama
+			background-size cover
+
+			&.panocursor
+				cursor ew-resize
+				
+			.pan_controls
+				display block
+				position absolute
+				left 0
+				text-align center
+
+	&.panorama-right	
+		.hlblock
+			padding-right 2%
+			padding-left 5%
+			text-align left
+
+		.panorama
+			background-size cover
+			
+			&.panocursor
+				cursor ew-resize
+			
+			.pan_controls
+				display block
+				position absolute
+				right 0
+				text-align center
+				
+	/* Testimonials */
+
+	&.testimonials-left
+		.hlblock
+			padding-left 2%
+			padding-right 5%
+			text-align right
+					
+	&.testimonials-right	
+		.hlblock
+			padding-right 2%
+			padding-left 5%
+			text-align left
+					
+	
+	&.testimonials
+		.slick-prev
+			left 20*$px
+			color $font_color_paragraph
+			&:hover
+				left 15*$px
+
+		.slick-next
+			right 20*$px
+			color $font_color_paragraph
+			&:hover
+				right 15*$px
+
+	.slick
+		.slick-list
+			height 100%
+		.slick-track
+			height 100%	
+		
+		.slide
+			height 100%	
+			text-align center
+			width 100%
+			vertical-align middle
+			
+			.testimonial
+				text-align center
+				padding 0 15%
+				position relative
+				relative_centered()
+				
+				&:before
+					font-size 64*$px
+					color $font_dark_color
+				
+				p
+					font-family $font_paragraph
+					font-size 13*$px
+					line-height 26*$px
+					color $font_color_paragraph	
+										
+				span
+					display block
+					
+					&.client-name
+						font-family $font_signature
+						color $font_dark_color
+						font-size 24*$px
+						line-height 50*$px
+					
+					&.client-info
+						font-family $font_paragraph
+						font-size 12*$px	
+						color $font_color_paragraph
+						font-style italic
+			
+		.slick-dots
+			position absolute
+			bottom 20*$px
+			width 100%
+			text-align center
+			margin 0
+			padding 0
+			
+			li 
+				display inline-block
+				font-size 32*$px
+				cursor pointer
+				
+				a
+					width 36*$px
+					height 30*$px
+					display block
+					background-color transparent
+					color $list_divider_color
+				
+					&:before
+						font-family 'salon-font'
+						content "\e611"
+						display block
+				
+				&.slick-active
+					a
+						color $font_color_paragraph
+						&:before
+							font-family 'salon-font'
+							content "\e610"
+
+	/* Slider */
+
+	&.slider-left
+		.hlblock
+			padding-left 2%
+			padding-right 5%
+	
+			h1
+				text-align right
+		
+		.content
+			padding 0
+			
+			.slide
+				padding 0
+				text-align left
+		
+	&.slider-right	
+		.hlblock
+			padding-right 2%
+			padding-left 5%
+	
+			h1
+				text-align left
+		
+		.content
+			padding 0
+			
+			.slide
+				padding 0
+				text-align left
+	
+	&.slider
+		.slick-prev
+			left 0
+
+		.slick-next
+			right 0
+
+	/* Grid */
+
+	&.grid-left
+		.hlblock
+			padding-left 2%
+			padding-right 5%
+	
+			h1
+				text-align right
+		
+		.content
+			padding 0
+			
+			.slide
+				padding 0
+				text-align left
+		
+	&.grid-right	
+		.hlblock
+			padding-right 2%
+			padding-left 5%
+	
+			h1
+				text-align left
+		
+		.content
+			padding 0
+			
+			.slide
+				padding 0
+				text-align left
+		
+	&.grid
+		
+		.slick-prev
+			left 0
+
+		.slick-next
+			right 0
+
+
+		ul 
+			margin 0
+			padding 0
+			display block
+			width 100%
+			height 100%
+			font-size 0
+			
+			li
+				display inline-block
+				padding 0
+				margin 0
+				font-size 13*$px
+				list-style none
+				overflow visible
+
+			&.grid3x3
+				li
+					width 33.333%
+					height 33.333%
+					border-left 1px solid $scrollbartrack_color
+					border-bottom 1px solid $scrollbartrack_color
+
+					&.item-1, &.item-4, &.item-7
+						border-left: 0	
+
+
+					&.item-7, &.item-8, &.item-9
+						border-bottom: 0	
+
+
+			&.grid4x4
+				li
+					width 25%
+					height 25%
+					border-left 1px solid $scrollbartrack_color
+					border-bottom 1px solid $scrollbartrack_color
+
+					&.item-1, &.item-5, &.item-9, &.item-13
+						border-left: 0	
+
+
+					&.item-13, &.item-14, &.item-15, &.item-16
+						border-bottom: 0	
+
+	/* 3 Columns */
+
+	&.col-3
+		.hlblock
+			display inline-block
+			position relative
+			width 33.333%
+			height 100%
+			vertical-align top
+			background-color $bg_dark_color
+			color $font_color_paragraph
+			padding-top 10%
+			padding-bottom 2%
+			
+			h1
+				color $font_light_color
+				margin 0
+				padding 0
+				
+				span
+					color $font_light_color
+				
+			a
+				text-decoration none
+				color $font_color_paragraph
+				
+				&:hover
+					color $font_light_color
+			
+		.content
+			display inline-block
+			position relative
+			width 33.333%
+			height 100%
+			vertical-align top
+			overflow-x hidden
+			overflow-y auto
+			z-index 8
+
+			p:first-child
+				margin-top 1.83em
+
+		.pic
+			display inline-block
+			position relative
+			width 33.333%
+			height 100%
+			vertical-align top
+					
+		.sliderwrapper	
+			display block
+			position absolute
+			top 0
+			overflow hidden
+			height 100%
+			vertical-align top
+			transition all 1s
+			z-index 9
+		
+		.slickexpandable	
+			width 33.333%
+	
+			.slick
+				height 100%
+				width 200%	
+			
+			.slider-hide
+				display none
+
+			.slick-prev
+				visibility hidden
+				
+			.slick-next
+				visibility hidden
+		
+		.slickexpanded
+			width 66.666%
+
+			.slick
+				height 100%
+				width 100%	
+				
+			.slider-init
+				display none
+			
+			.slide, .slick-list, .slick-track
+				width 100%
+
+		.slider-init, .slider-hide
+			background-color $bg_dark_color
+			color $font_color_paragraph
+			position absolute
+			z-index 2
+			cursor pointer
+			text-align center
+			width 60*$px
+			height 60*$px
+			line-height @height
+			margin-top -(@height/2)
+			animation fadeIn 0.5s ease
+			font-size 32*$px
+			top 50%
+
+	/* Headline - Text - Picture */
+
+	&.hl-text-pic
+		.hlblock
+			text-align right
+			padding-left 2%
+			padding-right 5%
+			
+		.content
+			padding 10% 5% 2% 5%
+		
+		.comments
+			right 0
+
+		.commentsform	
+			right 0
+
+	/* Headline - Picture - Text */
+			
+	&.hl-pic-text
+		.hlblock
+			text-align right
+			padding-left 2%
+			padding-right 5%
+
+		.content
+			padding 10% 5% 2% 5%
+
+		.comments
+			right 33.33%
+
+		.commentsform	
+			right 33.33%
+
+	/* Picture - Text - Headline */
+			
+	&.pic-text-hl
+		.hlblock
+			text-align left
+			padding-right 2%
+			padding-left 5%
+
+		.content
+			padding 10% 5% 2% 5%	
+
+		.comments
+			left 0
+
+		.commentsform	
+			left 0
+
+	/* Picture - Headline - Text */
+
+	&.pic-hl-text
+		.hlblock
+			text-align right
+			padding-left 2%
+			padding-right 5%
+
+		.content
+			padding 10% 5% 2% 5%
+
+		.comments
+			left 0
+
+		.commentsform	
+			left 0
+
+	/* Text - Headline - Picture */
+
+	&.text-hl-pic
+		.hlblock
+			text-align left
+			padding-right 2%
+			padding-left 5%
+
+		.content
+			padding 10% 5% 2% 5%
+
+		.comments
+			right 0
+
+		.commentsform	
+			right 0
+
+	/* Text - Picture - Headline */
+
+	&.text-pic-hl
+		.hlblock
+			text-align left
+			padding-right 2%
+			padding-left 5%
+
+		.content
+			padding 10% 5% 2% 5%
+
+		.comments
+			right 33.33%
+
+		.commentsform	
+			right 33.33%
+
+	/* Headline - Text - Slider */
+
+	&.hl-text-slider
+		.hlblock
+			text-align right
+			padding-left 2%
+			padding-right 5%
+
+		.content
+			padding 10% 5% 2% 5%
+		
+		.sliderwrapper
+			right 0	
+					
+		.slider-init
+			right 0
+
+		.slickexpanded
+			right 0
+
+		.slider-hide
+			right 0
+		
+		.comments
+			right 0
+
+		.commentsform
+			right 0
+
+	/* Slider - Text - Headline */
+
+	&.slider-text-hl
+		.hlblock
+			text-align left
+			padding-right 2%
+			padding-left 5%
+			
+		.content
+			margin-left 33.333%
+			padding 10% 5% 2% 5%
+	
+		.sliderwrapper
+			left 0	
+					
+		.slider-init
+			left 0
+
+		.slickexpanded
+			left 0
+
+		.slider-hide
+			left 0	
+
+		.comments
+			left 0
+			margin-left 0
+
+		.commentsform
+			left 0
+			margin-left 0
+
+	/* Slider - Headline - Text */
+
+	&.slider-hl-text
+		.hlblock
+			text-align right
+			margin-left 33.333%
+			padding-left 2%
+			padding-right 5%
+
+		.content
+			padding 10% 5% 2% 5%
+
+		.sliderwrapper
+			left 0	
+					
+		.slider-init
+			left 0
+
+		.slickexpanded
+			left 0
+
+		.slider-hide
+			left 0	
+
+		.comments
+			left 0
+			margin-left 0
+
+		.commentsform
+			left 0
+			margin-left 0
+
+	/* Text - Headline - Slider */
+
+	&.text-hl-slider
+		.hlblock
+			text-align left
+			padding-right 2%
+			padding-left 5%
+
+		.content
+			padding 10% 5% 2% 5%
+		
+		.sliderwrapper
+			right 0	
+					
+		.slider-init
+			right 0
+
+		.slickexpanded
+			right 0
+
+		.slider-hide
+			right 0
+
+		.comments
+			right 0
+
+		.commentsform
+			right 0
+
+	/* Stripes */
+	
+	&.stripes, 
+	&.stripes-part
+		h2
+			font-family $font_hl_content
+			text-transform uppercase
+			font-weight normal
+			letter-spacing 2*$px
+			font-size 42*$px
+			line-height 52*$px
+			
+			span
+				display block
+			
+	&.stripes-1
+
+		.hlblock
+			text-align left
+			padding-right 5%
+			padding-left 5%
+			
+			h2
+				color $font_light_color
+						
+			&:first-child
+				text-align right
+		
+		.content
+			padding-top 10%
+			padding-bottom 2%
+			text-align center
+			
+			h2
+				color $font_dark_color
+			
+		&.stripes-part
+			.hlblock
+				width 50%		
+
+	&.stripes-2
+		
+		.content
+			padding-top 10%
+			padding-bottom 2%
+			padding-right 5%
+			padding-left 5%
+			text-align left
+			
+			&:first-child
+				text-align right
+		
+		.hlblock
+			text-align center
+		
+		&.stripes-part
+			.hlblock
+				width 50%
+			.content
+				width 50%	
+	
+
+	/* Single Post */
+		
+	&.single-post
+		
+		.comments
+			width 33.333%
+			height 100%
+			vertical-align top
+			position absolute
+			visibility hidden
+			opacity 0
+			top 0
+			padding 2em 3em 1em 1em
+			background-color $frame_color
+			z-index 10
+			
+			&.on
+				visibility visible
+				opacity 1
+				animation fadeIn 0.5s ease
+		
+			/* comment list */
+				
+			.commentlist
+				
+				ol, ul
+					list-style none
+					padding 0
+					margin 0
+					
+					li
+						position relative
+						min-height 60px
+						overflow hidden
+						margin-bottom 1em
+					
+					.children
+						margin-top 1em
+						margin-left 2em
+
+				.comment-avatar
+					width 60px
+					height 60px
+					border-radius 30px
+					overflow hidden
+					position absolute
+					left 0
+					top 0
+
+					
+				div.comment
+					padding-left 80px
+				
+				.comment-meta
+					font-size 10*$px
+					line-height 16*$px
+					font-family $font_filter
+					font-weight 700
+					text-transform uppercase
+					margin-bottom 1em
+					color $font_color_paragraph
+					
+					.separator
+						margin-right 0.5em
+						margin-left 0.5em
+				
+				a
+					text-decoration none
+					color $font_dark_color
+					
+				.comment-content
+					p
+						margin 0
+						line-height 160%
+		
+		.close
+			position absolute
+			top 0
+			right 0
+			width 40px
+			height 40px
+			cursor pointer
+			font-size 32*$px
+			text-align center			
+
+		.commentsform
+			width 33.333%
+			height 100%
+			vertical-align top
+			position absolute
+			visibility hidden
+			opacity 0
+			top 0
+			z-index 10
+			background-color $frame_color
+
+			&.on
+				visibility visible
+				opacity 1
+				animation fadeIn 0.5s ease
+								
+
+		.post-meta
+			font-size 10*$px
+			letter-spacing 1*$px
+			font-family $font_filter
+			font-weight 700
+			text-transform uppercase
+			
+			a
+				cursor pointer
+					
+		.separator
+			display inline-block
+			padding-left 0.5em
+			padding-right 0.5em
+		
+		.categories
+			list-style none
+			padding 0
+			margin 0
+			display inline-block
+			
+			li
+				display inline-block
+		
+		.postdate
+			display inline-block
+		
+		.meta-top
+			margin-top 3em	
+			margin-bottom 2em
+		
+		.meta-bottom
+			
+			&.positioned
+				position absolute
+				bottom 6%
+
+	/* Carousel */
+
+	&.carousel
+		
+		.carouselitems
+			height 100%
+			text-align center
+						
+			.slick-list, .slick-track
+				height 100%
+				
+			.slick-prev
+				right 50%
+
+			.slick-next
+				left 50%
+
+			.item
+				display inline-block
+				position relative
+				width 25%
+				height 100%
+				cursor pointer
+				
+				.pic
+					display block
+					position relative
+					width 100%
+					height 100%
+					z-index 8
+					transition all 0.5s ease-out
+					-webkit-filter grayscale(100%)
+				
+				.text	
+					position absolute
+					text-align center
+					background-color $frame_color
+					width 100%
+					overflow hidden
+					cursor pointer
+					z-index 9
+					bottom 60*$px
+					height 60*$px
+					transition all 0.1s ease-in
+
+					h3
+						font-family $font_h3_content
+						font-size 18*$px
+						line-height 30*$px
+						font-weight normal
+						margin 17*$px 0 0 0
+						padding 0
+						text-align center
+
+					.sub-info
+						font-family $font_paragraph
+						font-size 13*$px
+						line-height 28*$px
+						display block
+						text-align center
+						visibility hidden
+						margin-bottom 40*$px
+
+					p
+						padding 0 30*$px 50*$px 30*$px
+						visibility hidden
+						opacity 0
+						text-align center
+			
+					.button_dark
+						visibility hidden
+						opacity 0
+						margin auto
+			
+				&:hover
+							
+					.pic
+						-webkit-filter grayscale(0%)
+					
+					.text
+						height 430*$px
+						padding-top 27*$px
+						
+						.sub-info
+							visibility visible
+						
+						p
+							visibility visible
+							opacity 1
+						
+						.button_dark
+							visibility visible
+		/* News */
+
+		&.news
+						
+			.item
+				padding 70*$px 50*$px 10*$px 50*$px
+				border-left 1px solid $scrollbartrack_color
+				-webkit-font-smoothing antialiased
+				
+				&:first-child
+					border-left none
+					
+				.meta
+					font-family $lato
+					font-size 10*$px
+					text-transform uppercase
+					letter-spacing 0.1em
+					color $font_dark_color
+					
+					.category
+						font-weight 700
+						padding-right 1em
+
+					
+					.date
+						padding-left 1em	
+				
+				h2
+					line-height 110%
+					margin-bottom 0.7em
+					margin-top 0.5em
+					padding-bottom 0
+					color $font_dark_color
+					font-family $font_paragraph
+					text-transform none
+					font-size 23*$px
+					font-weight 700
+				
+				p
+					line-height 200%	
+
+				.more
+					display block
+					position absolute
+					bottom 0
+					padding-bottom 50*$px
+					padding-top 30*$px
+					left 0
+					width 100%
+					font-size 0
+					color $font_color_paragraph
+					line-height 32*$px
+					text-align center
+					text-indent -99999px
+					transition all 0.5s ease-out
+					-webkit-font-smoothing none
+					
+					&:before
+						display block
+						font-size 32*$px
+						text-indent 0
+					
+					&:hover
+						color $font_dark_color
+							
+						&:before
+							padding-bottom 5*$px
+					
+
+	/* Tophead */
+	
+	&.tophead	
+		
+		.hlblock
+			display inline-block
+			position relative
+			width 100%
+			height 32%
+			vertical-align top
+			background-color $bg_dark_color
+			color $font_light_color
+			z-index 9
+			
+			h1
+				text-align center
+				position relative
+				margin 0
+				padding 0
+				relative_centered()
+				
+				span
+					display inline
+		
+		.content
+			height 68%
+			padding 5%
+		
+		.gmap
+			height 68%
+			
+			.mapinfo
+				h3
+					font-family $font_paragraph
+					text-transform none
+					font-weight 700
+					font-size 18*$px
+					margin-bottom 0.5em
+				
+		/* Carousel */
+		
+		&.carousel
+			
+			.filtercarousel
+				overflow hidden
+							
+			.carouselitems
+				z-index 8
+				height 68%
+				
+				.item
+					vertical-align top
+					.text
+						background-color alpha($frame_color,0.9)
+					
+					&:hover
+						
+						.text
+							height 385*$px
+							bottom 0
+		/* Polaroid */
+		
+		&.polaroid
+			
+			.photostack
+				z-index 8
+				height 68%
+				position relative
+				text-align center
+				overflow hidden
+
+		.filterlist
+			list-style none
+			text-align center
+			margin 0
+			padding 0
+			font-size 10*$px
+			letter-spacing 1*$px
+			font-family $font_filter
+			font-weight 700
+			text-transform uppercase
+			position absolute
+			bottom -8*$px
+			width 100%
+			overflow hidden
+			padding-bottom 8*$px
+						
+			li
+				display inline-block
+				
+				&.label
+					a
+						color $font_light_color
+						cursor default
+				
+				a
+					line-height 4.5em
+					display block
+					padding-left 1em
+					padding-right 1em
+					cursor pointer
+					position relative
+					color $font_color_paragraph
+					
+					&.filter
+						&.active
+							
+							&:before
+								content ''
+								display block
+								position absolute
+								background-color transparent
+								width 5000px
+								height 0
+								left 50%
+								bottom -16px
+								border-width 8px
+								border-style solid
+								border-color transparent
+								border-top-color $bg_dark_color
+														
+							
+							&:after
+								content ''
+								display block
+								position absolute
+								background-color transparent
+								width 5000px
+								height 0
+								right 50%
+								bottom -16px
+								border-width 8px
+								border-style solid
+								border-color transparent
+								border-top-color $bg_dark_color
+						
+						&:hover
+							color $font_light_color	
+			
+			/* maplist */
+			.ullist
+				li
+					padding-left 1em
+					padding-right 1em
+					
+					a
+						line-height 3.5em
+						display block
+						cursor pointer
+						position relative
+						color $font_color_paragraph
+					
+						&:hover
+							span
+								color $font_light_color	
+								
+					&.active
+						a
+							&:before
+								content ''
+								display block
+								position absolute
+								background-color transparent
+								width 5000px
+								height 0
+								left 50%
+								bottom -16px
+								border-width 8px
+								border-style solid
+								border-color transparent
+								border-top-color $bg_dark_color
+														
+							
+							&:after
+								content ''
+								display block
+								position absolute
+								background-color transparent
+								width 5000px
+								height 0
+								right 50%
+								bottom -16px
+								border-width 8px
+								border-style solid
+								border-color transparent
+								border-top-color $bg_dark_color	
+
+		/* Mobile Filter Box */
+																	
+		.togglebox
+			font-size 10*$px
+			letter-spacing 1*$px
+			font-family $font_filter
+			font-weight 400
+			text-transform uppercase
+			text-align center
+			position absolute
+			bottom 0
+			width 50%
+			h_centered_1()
+			
+			.filterselect
+				line-height 4.5em
+				
+				.selectlabel
+					font-weight 700
+			
+			.filterlist
+				position absolute
+				top 40*$px
+				overflow visible
+
+				li
+					background-color $bg_dark_color
+					display block
+					
+					a
+
+						&.active
+							color $font_light_color
+							
+							&:before
+								display none
+							&:after
+								display none	
+
+					&.active
+						a
+							&:before
+								display none
+							&:after
+								display none	
+
+		/* Multiple filters list */
+
+		.multilist
+			width 100%
+			position absolute
+			bottom 0
+			font-size 10*$px
+			letter-spacing 1*$px
+			font-family $font_filter
+			font-weight 700
+			text-transform uppercase
+			text-align center
+			
+		
+			.reset
+				position absolute
+				display block
+				font-size 10*$px
+				letter-spacing 1*$px
+				font-family $font_filter
+				font-weight 700
+				text-transform uppercase
+				right 2em
+				bottom 0
+				line-height 4.5em
+				padding-left 1em
+				padding-right 1em
+				cursor pointer
+				z-index 10
+				color $font_color_paragraph
+				
+				&:hover
+					color $font_light_color
+			
+			.filterlist
+				width 50%
+				position absolute
+				right 0
+				display inline-block
+				text-align left
+				padding-left 3em
+				z-index 9
+				
+				&:first-child
+					left 0
+					text-align right
+					padding-right 3em
+				
+				a
+					font-weight 400
+				
+				.label
+					a
+						font-weight 700
+						
+						&.default
+							&:before
+								content ''
+								display block
+								position absolute
+								background-color transparent
+								width 5000px
+								height 0
+								left 50%
+								bottom -16px
+								border-width 8px
+								border-style solid
+								border-color $bg_dark_color
+
+							&:after
+								content ''
+								display block
+								position absolute
+								background-color transparent
+								width 5000px
+								height 0
+								right 50%
+								bottom -16px
+								border-width 8px
+								border-style solid
+								border-color $bg_dark_color
+							
+			.togglebox
+				width 47%
+				position relative
+				text-align right
+				display inline-block
+				padding-right 2em
+				position relative
+							
+				&.last
+					text-align left
+					padding-left 2em
+					
+					.compactlist
+						right auto
+						left -0.3em
+						
+						li
+							text-align left
+							padding-left 1.3em
+
+				.filtered
+					color $font_color_paragraph
+				
+				.filterselect
+					cursor pointer
+					line-height 4.5em
+				
+				.compactlist
+					top 40*$px
+					right -0.3em
+					margin 0
+					padding 0
+					overflow visible
+					
+					li
+						display block
+						background-color $bg_dark_color
+						padding-right 1.3em
+						text-align right
+						
+						a
+						
+							&.active
+								color $font_light_color
+								
+								&:before
+									display none
+								
+								&:after
+									display none	
+
+		/* Advanced Filter (MixItUp) */
+
+		&.mixitup
+						
+			.filteritems
+				z-index 8
+				height 68%
+				overflow hidden
+				
+				&.team
+					text-align center
+		
+					.item
+						display none
+						position relative
+						width 25%
+						height 100%
+						cursor pointer
+						
+						.pic
+							display block
+							position relative
+							width 100%
+							height 100%
+							z-index 8
+							transition all 0.5s ease-out
+							-webkit-filter grayscale(100%)
+						
+						.text	
+							position absolute
+							text-align center
+							background-color $frame_color
+							width 100%
+							overflow hidden
+							cursor pointer
+							z-index 9
+							bottom 60*$px
+							height 60*$px
+							transition all 0.1s ease-in
+
+							h3
+								font-family $font_h3_content
+								color $font_dark_color
+								font-size 18*$px
+								line-height 30*$px
+								font-weight normal
+								margin 17*$px 0 0 0
+								padding 0
+								text-align center
+								text-transform none
+
+							.sub-info
+								font-family $font_paragraph
+								font-size 13*$px
+								line-height 28*$px
+								display block
+								text-align center
+								visibility hidden
+								margin-bottom 40*$px
+
+							p
+								padding 0 30*$px 48*$px 30*$px
+								visibility hidden
+								opacity 0
+								text-align center
+					
+							.button_dark
+								visibility hidden
+								opacity 0
+								margin auto
+					
+						&:hover
+									
+							.pic
+								-webkit-filter grayscale(0%)
+							
+							.text
+								height 385*$px
+								padding-top 27*$px
+								bottom 0
+								
+								.sub-info
+									visibility visible
+								
+								p
+									visibility visible
+									opacity 1
+								
+								.button_dark
+									visibility visible
+
+				/* MixItUp Filter News */
+									
+				&.news
+													
+					.item
+						display none
+						float left
+						position relative
+						width 25%
+						height 100%
+						cursor pointer
+						padding 70*$px 50*$px 10*$px 50*$px
+						border-left 1px solid $scrollbartrack_color
+						-webkit-font-smoothing antialiased
+						
+						&:first-child
+							border-left none
+							
+						.meta
+							font-family $lato
+							font-size 10*$px
+							text-transform uppercase
+							letter-spacing 0.1em
+							color $font_dark_color
+							
+							.category
+								font-weight 700
+								padding-right 1em
+
+							
+							.date
+								padding-left 1em	
+						
+						h2
+							line-height 110%
+							margin-bottom 1.7em
+							margin-top 0.5em
+							padding-bottom 0
+							color $font_dark_color
+							font-family $font_paragraph
+							text-transform none
+							font-size 23*$px
+							font-weight 700
+						
+						p
+							line-height 26*$px	
+
+						.more
+							display block
+							position absolute
+							bottom 0
+							padding-bottom 50*$px
+							padding-top 30*$px
+							left 0
+							width 100%
+							font-size 0
+							color $font_color_paragraph
+							line-height 32*$px
+							text-align center
+							text-indent -99999px
+							transition all 0.5s ease-out
+							-webkit-font-smoothing none
+							
+							&:before
+								display block
+								font-size 32*$px
+								text-indent 0
+							
+							&:hover
+								color $font_dark_color
+									
+								&:before
+									padding-bottom 5*$px
+									
+				/* MixItUp Filter Services */
+
+				&.services
+					padding-top 5%
+										
+					.item
+						display none
+						width 42%
+						float left
+						margin-left 4%
+						margin-right 4%
+						margin-bottom 20*$px
+						padding-bottom 15*$px
+						padding-top 15*$px
+						cursor pointer
+						position relative
+						border-bottom 1px dotted $list_divider_color
+						
+						h3
+							text-transform none
+							font-family $font_paragraph
+							font-weight 700
+							font-size 14*$px
+							margin 0
+							padding 0
+							line-height 28*$px
+							color $font_dark_color
+						
+						p
+							margin 0
+							line-height 32*$px
+							display inline-block
+							width 70%
+						
+						a
+							line-height 32*$px
+							display inline-block
+							width 30%
+							text-align right
+							transition all 0.5s ease-in-out
+							
+							i
+								opacity 0
+								color $frame_color
+								padding-right 1em
+								transition all 0.3s ease-in-out
+						
+						&:hover
+							
+							a
+								background-color $bg_dark_color
+								color $frame_color
+								text-align center
+								
+								i
+									opacity 1
+
+
+/* Photostack Polaroid Gallery */	
+
+.js
+	.photostack
+		height 100%
+		
+		figure
+			position absolute
+			display block
+			margin 0
+		
+		&:before
+			content ''
+			position absolute
+			width 100%
+			height 100%
+			background rgba(0,0,0,0.5)
+			top 0
+			left 0
+			z-index 100
+			transition opacity 0.3s, visibility 0s 0.3s
+			opacity 0
+			visibility hidden
+			
+		&:after
+			content 'View Gallery'
+			font-weight 400
+			position absolute
+			border 3px solid #fff
+			text-align center
+			white-space nowrap
+			left 50%
+			top 50%
+			transform translateY(-50%) translateX(-50%)
+			padding 10px 20px
+			color #fff
+			text-transform uppercase
+			letter-spacing 1px
+			cursor pointer
+			z-index 101
+			opacity 0
+			visibility hidden
+	
+	.photostack-start
+		&:before
+			opacity 1
+			visibility visible
+		
+		&:hover
+			&:after
+				opacity 1
+				visibility visible
+
+.touch
+	.photostack-start
+		&:after
+			opacity 1
+			visibility visible
+
+.photostack-start
+	cursor pointer
+	
+	nav
+		opacity 0
+	
+	&:before
+		transition opacity 0.3s	
+
+.photostack-img
+	outline none
+	display block
+	width 350px
+	height 260px
+	overflow hidden
+	border 5px solid $frame_color
+	
+	
+.photostack-back
+	display none
+	position absolute
+	width 100%
+	height 100%
+	top 0
+	left 0
+	background $bg_dark_color
+	padding 50*$px 40*$px
+	z-index 1
+	font-family $font_paragraph
+	font-size 13*$px
+	line-height 26*$px
+	color $font_color_paragraph		
+	
+	p
+		margin 0
+		span
+			text-decoration line-through
+				
+
+.photostack
+	
+	& > div
+		width 100%
+		height 100%
+		margin 0 auto
+	
+	figure
+		width 410*$px
+		height 370*$px
+		position relative
+		display inline-block
+		background $bg_dark_color
+		padding 30*$px
+		text-align center
+		margin 5*$px
+		
+		&:after
+			content ''
+			position absolute
+			width 100%
+			height 100%
+			top 0
+			left 0
+			visibility visible
+			opacity 1
+			background rgba(0,0,0,0.05)
+			transition opacity 0.6s
+		
+		&.photostack-current
+			&:after
+				opacity 0
+				visibility hidden
+				transition opacity 0.6s, visibility 0s 0.6s	
+	
+	figcaption
+		h2
+			font-family $font_signature
+			font-size 24*$px
+			line-height 40*$px
+			color $font_light_color
+			font-weight normal
+			text-transform none
+			-webkit-font-smoothing antialiased
+	
+	nav
+		position absolute
+		width 100%
+		bottom 0
+		z-index 90
+		text-align center
+		left 0
+		transition opacity 0.3s
+		
+		button
+			width 60*$px
+			height 60*$px
+			background $bg_dark_color
+			color $font_color_paragraph
+			font-size 32*$px
+			line-height 30*$px
+			border none
+			outline none
+			text-align center
+			padding 0
+			
+			&:hover
+				color $font_light_color
+		
+		span
+			position relative
+			display inline-block
+			width 60*$px
+			height 60*$px
+			cursor pointer
+			line-height 60*$px
+			text-align center
+			transition transform 0.6s ease-in-out, background 0.3s
+			background $bg_dark_color
+			color $font_color_paragraph
+			
+			&:before
+				font-family 'salon-font'
+				content "\e611"
+				display block
+				font-size 32*$px
+				
+			&:hover
+				color $font_light_color
+			
+			&:last-child
+				margin-right 0
+						
+			&.current
+				
+				&:before
+					font-family 'salon-font'
+					content "\e604"
+					speak none
+					display block
+					transition opacity 0.3s
+					backface-visibility hidden
+					
+				&.flip
+					transform scale(1) rotateY(-180deg) translateZ(-1px)
+			
+			&.flippable
+				&:after
+					opacity 1
+					transition-delay 0.4s
+	
+	&.hidebullets
+		nav
+			span
+				display none
+			
+				&.flippable
+					display inline-block	
+
+.photostack-transition
+	figure
+		transition transform 0.6s ease-in-out
+
+.photostack-perspective
+	perspective 1800px
+	
+	figure
+		transform-style preserve-3d
+		backface-visibility hidden
+		
+		div
+			backface-visibility hidden		
+		
+		&.photostack-flip
+			transform-origin 0% 50%
+
+.photostack-perspective > div
+	transform-style preserve-3d
+
+.csstransformspreserve3d
+	figure
+		&.photostack-flip
+			.photostack-back
+				transform rotateY(180deg)
+				display block
+
+.no-csstransformspreserve3d
+	figure
+		&.photostack-showback
+			.photostack-back
+				display block
+.no-js
+	.photostack
+		figure
+			box-shadow -2px 2px 0 rgba(0,0,0,0.05)
+		
+			&:after
+				display none
+			
+			&:nth-child(3n)
+				transform translateX(-10%) rotate(5deg)
+				
+			&:nth-child(3n-2)
+				transform translateY(10%) rotate(-3deg)
+
+/* Forms
+*/
+
+form *
+	margin 0
+	padding 0
+
+.status
+	display none
+	
+fieldset
+	border 0
+	outline 0
+	position relative
+	min-height 1.7em
+	margin-bottom 3em
+	
+	&:after
+		content ''
+		background-image url(../img/border.svg)
+		background-position bottom center
+		background-repeat repeat-x
+		width 100%;
+		height 1px
+		position absolute
+		bottom 0
+		left 0
+		opacity 0.3
+	
+	&.submit
+		text-align center
+		padding-top 2em
+		
+		&.left
+			text-align left
+
+		&:after
+			display none
+	
+label
+	display none
+	font-size 14*$px
+	line-height 28*$px
+	color $font_dark_color
+
+.no-textshadow
+		
+	label
+		display inline-block
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="date"]
+	width 100%	
+	background transparent
+	border 0
+	font-size 14*$px
+	line-height 28*$px
+	padding-right 1em
+
+textarea
+	min-height 28*$px
+	height 28*$px
+	max-height 10em
+	box-sizing border-box
+	overflow-x hidden
+
+select
+	width 70%
+	display inline-block
+	float right
+
+.select
+	label
+		 display inline-block
+		 font-weight 700
+
+	input
+		width 70%
+		display inline-block
+		float right
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="search"]:focus,
+input[type="date"]:focus
+	outline 0
+
+input[type="submit"]
+	background transparent
+	border 1px solid $font_color_paragraph
+	padding 1rem step(1, 3, $phi, rem)
+	text-decoration none
+	color $font_dark_color
+	text-transform uppercase
+	font-size 12*$px
+	white-space nowrap
+	text-align center
+	letter-spacing 0.5*$px
+	transition all 0.3s ease-in-out
+	
+	&:hover
+		border 1px solid $bg_dark_color
+		background-color $bg_dark_color
+		color $font_light_color
+	
+	&:focus
+		outline 0	
+
+::-webkit-input-placeholder 
+	color $font_dark_color
+	font-weight 700
+
+:-moz-placeholder
+	color $font_dark_color 
+	font-weight 700
+
+::-moz-placeholder
+	color $font_dark_color  
+	font-weight 700
+
+:-ms-input-placeholder
+	color $font_dark_color
+	font-weight 700
+	line-height 1
+	height 20*$px
+
+form	
+	&.inverted
+		fieldset
+			&:after
+				background-image url(../img/border_light.svg)
+		
+		input[type="submit"]
+			
+			&:hover
+				border 1px solid $bg_dark_color
+				background-color $frame_color
+				color $font_dark_color
+
+
+.chosen-container
+	display inline-block
+	float right
+	
+	.chosen-single
+		background transparent
+		border none
+		outline none
+		box-shadow none
+		position relative
+		padding 0
+		display block
+		font-size 14*$px
+		line-height 28*$px
+		color $font_color_paragraph
+
+		&:after
+			content '\e60d'
+			font-family $icon_font
+			display block
+			width 1em;
+			height 100%
+			position absolute
+			font-size 32*$px
+			right 0
+			top 0
+		
+		span
+			display block
+			font-size 14*$px
+			line-height 28*$px
+
+	.chosen-drop
+		margin-top 2px
+		border none
+		border-radius 0
+		box-shadow none
+		background-color $bg_dark_color
+	
+	.chosen-results
+		color $font_light_color
+		margin 0
+		padding 0
+		
+		li
+			line-height 32*$px
+			padding 0 0 0 1em
+			
+		
+		li.highlighted
+			background-color $font_dark_color
+			background-image none
+		
+		li.group-option
+			padding-left 2em	
+
+.chosen-container-single
+	.chosen-single
+		img
+			display none
+
+		div
+			display none
+			height 0
+
+			b
+				background-image none
+				display none
+				
+
+.chosen-container-multi 
+	
+	&:after
+		content '\e60d'
+		font-family $icon_font
+		display block
+		width 1em;
+		height 100%
+		position absolute
+		font-size 32*$px
+		line-height 28*$px
+		right 0
+		top 0
+
+	.chosen-choices
+		margin 0
+		padding 0
+		padding-right 1em
+		border none
+		background-color transparent
+		background-image none
+		box-shadow none
+		
+		li.search-choice
+			background-color transparent
+			background-image none
+			border 0
+			box-shadow none
+			padding 0
+			margin 0 1em 0 0
+			display inline-block
+			line-height 28*$px
+			
+			span
+				display inline-block
+				line-height 28*$px
+				vertical-align middle
+				width 100%
+				
+			.search-choice-close
+				width 100%
+				height 50%
+				top 50%
+				right auto
+				left 0
+				background-image none
+				
+				&:hover
+					border-top 1px solid $font_dark_color
+
+.chosen-container-active
+	
+	&.chosen-with-drop
+		
+		&.chosen-container-multi 
+			&:after
+				content '\e60c'
+	
+		.chosen-single
+			background transparent
+			border none
+			outline none
+			box-shadow none
+			padding 0
+			
+			div
+				display none
+				
+				b
+					display none
+	
+			&:after
+				content '\e60c'
+
+/* Content Columns */
+.columns-1-2
+	width 50%
+	display inline-block
+	vertical-align top
+	padding-right 3.5%	
+
+.columns-2-2
+	width 50%
+	display inline-block
+	vertical-align top
+	padding-left 3.5%	
+
+/* Responsive Styles */
+
+body,
+header
+	&:after
+		display none
+
+#mobilenav
+	display none
+
+@media only screen and (max-height: 767px)
+	header
+		&:after
+			content 'nosnapres'
+
+
+
+@media only screen and (min-width: 1280px) 
+	body
+		&:after
+			content 'res_big'
+
+@media only screen and (max-width: 1280px) 
+
+	body
+		&:after
+			content 'res_nbl'
+	section
+		&.tophead
+			.hlblock
+				height 25%
+				
+			&.mixitup
+				.filteritems
+					height 75%
+					
+					&.team
+						.item
+							width 33.333%
+					&.news
+						.item
+							width 33.333%		
+			&.carousel
+				.carouselitems
+					height 75%
+					
+			&.polaroid
+				.photostack
+					height 75%
+			
+			.gmap
+				height 75%					
+
+@media only screen and (max-width: 1024px) 
+
+	body
+		.scrollarrow_left,
+		.scrollarrow_right
+			display none
+
+		&:after
+			content 'res_tbl'
+
+		&.animsections
+			section
+				opacity 1
+				position relative
+				height auto
+		
+		&.animtrans
+			&.topheader
+				.animsition-overlay-slide
+					border-top 60*$px solid $frame_color
+					border-right 20*$px solid $frame_color
+					border-bottom 20*$px solid $frame_color
+		
+			&.bottomheader
+				.animsition-overlay-slide
+					border-top 20*$px solid $frame_color
+					border-right 20*$px solid $frame_color
+					border-bottom 60*$px solid $frame_color
+		
+		&.topheader
+			#hero
+				padding-top 60*$px
+				$toppad = 20*$px
+				height "calc(100% - %s)" % $toppad
+		
+		&.bottomheader
+			section
+				padding 20*$px 20*$px 60*$px 20*$px
+
+			
+	#mobilenav
+		display block
+		z-index 10
+	
+
+	header
+		padding-left 20*$px
+		padding-right 20*$px
+		height 60*$px
+		
+		#mainmenu
+			display none
+		
+		#socialshare
+			z-index 11
+			
+			#socialshare_trigger
+				height 60*$px
+				line-height 60*$px
+				right 57*$px	
+			
+			nav
+				bottom 60*$px
+				right 57*$px
+	
+		&.stuck
+			#socialshare
+				nav
+					bottom auto
+					top 60*$px			
+
+	.columns-1-2,
+	.columns-2-2
+		width 100%
+		padding 0
+	
+	.slick-prev-dark, 
+	.slick-next-dark, 
+	.pan_controls
+		width 40*$px
+		height 40*$px
+		font-size 32*$px
+		line-height 40*$px
+	
+	.photostack
+		nav
+			button,
+			span
+				width 40*$px
+				height 40*$px
+				line-height 40*$px
+		
+	.pagerlist
+		&.dark 
+			.pager
+				width 40*$px
+				height 40*$px
+				font-size 16*$px
+				line-height 40*$px
+				
+				span
+					line-height 40*$px
+
+	#end,
+	#intro
+		border 20*$px solid $frame_color
+	
+	#hero
+		.tagline
+			h1
+				font-size 34*$px
+			
+			h2
+				font-size 14*$px
+				line-height 1.5em
+
+	section
+		padding 60*$px 20*$px 20*$px 20*$px
+		min-height 748*$px
+		
+		.slick
+			.slide
+				padding 0
+				
+		article
+			h1
+				font-size 34*$px
+				line-height 44*$px
+
+			h2
+				font-size 31*$px
+									
+			h3
+				font-size 25*$px
+									
+			h4
+				font-size 19*$px
+
+			h5
+				font-size 16*$px
+									
+			h6
+				font-size 15*$px
+
+		&#hero
+			padding 20*$px 20*$px 0 20*$px
+			min-height 300*$px
+			$menuheight = 60*$px
+			height "calc(100% - %s)" % $menuheight
+
+		&.carousel
+			.carouselitems
+				.item
+					.text
+						bottom 40*$px		
+
+		&.tophead
+			.hlblock
+				height 20%
+				
+				h1
+					transform none
+					top 25%
+				
+			&.mixitup
+				.filteritems
+					height 80%
+					
+					&.team
+						.item
+							width 50%
+							
+							.text
+								bottom 40*$px
+					&.news
+						.item
+							width 50%		
+
+			&.carousel
+				.carouselitems
+					height 80%					
+
+			&.polaroid
+				.photostack
+					height 80%				
+			.gmap
+				height 80%					
+		
+		&.col-3
+			
+			.hlblock
+				height 20%
+				width 100%
+				padding-top 0
+				padding-bottom 0
+				z-index 8
+				
+				h1
+					text-align center
+					position relative
+					relative_centered()
+					
+					span
+						display inline-block
+						
+			.content
+				width 50%
+				height 80%
+				padding-top 5%
+				z-index 6
+			
+			.pic
+				width 50%
+				height 80%
+				z-index 6
+			
+			.sliderwrapper
+				height 80%
+				top auto
+				bottom 0
+				z-index 7
+			
+			.slider-init,
+			.slider-hide
+				width 40*$px
+				height 40*$px
+				line-height 40*$px	
+			
+			.slickexpandable	
+				width 50%
+				
+			.slickexpanded
+				width 100%	
+
+			&.stripes-1
+				
+				&.stripes-original
+					
+					.content
+						display none
+						
+					.hlblock
+						height 100%
+						width 100%
+						text-align center
+						padding-top 5%
+
+						&:first-child
+							display none
+							
+						h2
+							font-size 34*$px
+							line-height 44*$px
+							span
+								display inline-block
+				
+				&.stripes-clone
+					.hlblock
+						display none
+						width 50%
+						height 100%
+						text-align center
+						padding-top 5%
+
+						
+						h2
+							font-size 34*$px
+							line-height 44*$px
+							
+							span
+								display inline-block
+
+						&:first-child
+							display inline-block
+					
+					.content
+						width 50%
+						height 100%
+						padding-top 5%
+						text-align center
+						
+						h2
+							font-size 34*$px
+							line-height 44*$px
+							span
+								display inline-block		
+
+
+			&.stripes-2
+				
+				&.stripes-original
+					
+					.hlblock
+						display none
+
+					.content
+						height 100%
+						width 100%
+						text-align center
+						padding-top 5%
+						
+						&:first-child
+							display none
+
+						h2
+							font-size 34*$px
+							line-height 44*$px
+							span
+								display inline-block		
+							
+				&.stripes-clone
+					
+					.content
+						display none
+						height 100%
+						width 50%
+						text-align center
+						padding-top 5%
+						
+						&:first-child
+							display inline-block
+
+						h2
+							font-size 34*$px
+							line-height 44*$px
+							span
+								display inline-block		
+					
+					.hlblock
+						width 50%
+						height 100%
+						padding-top 5%
+						text-align center		
+
+						h2
+							font-size 34*$px
+							line-height 44*$px
+							span
+								display inline-block		
+					
+			&.slider-text-hl
+				.content
+					margin-left 50%
+					
+			&.slider-hl-text
+				.hlblock
+					margin-left 0
+				.content
+					margin-left 50%
+			
+			&.single-post
+				.hlblock
+					.meta-top
+						position absolute
+						text-align center
+						width 100%
+						left 0
+						margin 1em 0
+						
+					.meta-bottom
+						width 100% !important
+						text-align center
+						left 0
+						bottom 0
+						margin 1em 0
+				
+				.comments
+					width 50%
+					top auto
+					bottom 0
+					z-index 10
+					background-color $bg_content
+					
+				.commentsform
+					width 50%
+					top auto
+					bottom 0
+					z-index 10
+					background-color $bg_content
+				
+				&.hl-pic-text
+					.comments, 
+					.commentsform
+						right 50%
+				
+				&.text-pic-hl
+					.comments, 
+					.commentsform
+						right 0%
+						
+				&.slider-text-hl
+					.comments,
+					.commentsform
+						margin-left 0
+
+				&.slider-hl-text		
+					.comments,
+					.commentsform
+						margin-left 0
+
+@media screen and (max-width: 800px)
+	body
+		&:after
+			content 'res_stbl'
+
+	section
+		height auto
+		min-height initial
+				
+		article
+			background-color $bg_content
+
+		.slick
+			.slide
+				.testimonial
+					transform none
+					padding-bottom 40*$px
+					padding-left 0
+					padding-right 0
+
+		&.col-2
+			.hlblock
+				width 100%
+				height auto
+				text-align center
+				padding 40*$px 20*$px
+				
+				h1
+					padding 0
+					
+					span
+						display inline-block
+			.content
+				width 100%
+				height auto
+				padding 0
+							
+			.panorama
+				min-height 300*$px
+
+		&.slider-left
+			.hlblock
+				h1
+					text-align center
+			.content
+				height 300*$px					
+
+		&.slider-right
+			.hlblock
+				h1
+					text-align center
+			.content
+				height 300*$px
+
+		&.default-left,
+		&.default-right,
+		&.testimonials
+			.content
+				padding 40*$px 20*$px
+			
+			.slick-track
+				width 100% !important
+				transform none !important
+				
+				.slide
+					margin-bottom 2em
+			
+			.slick-prev,
+			.slick-next,
+			.slick-dots
+				display none !important		
+					
+		&.grid
+
+			article
+				background-color transparent
+
+			ul
+				li
+					img
+						width 100%
+						height auto
+			.slick-next,
+			.slick-prev
+				display none !important
+
+		&.grid-left,
+		&.grid-right
+			.hlblock
+				h1
+					text-align center				
+
+		&.col-3
+			.hlblock		
+				width 100%
+				height auto
+				text-align center
+				padding 40*$px 20*$px
+				
+				h1
+					top auto
+					transform none
+				
+			.content
+				height auto
+				padding 20*$px
+				width 100%
+			
+			.pic
+				height auto
+				width 100%
+				
+				img
+					width 100%
+					height auto
+			
+			.sliderwrapper
+				width 100%
+				height 300*$px
+				position relative
+			
+			.slider-init,
+			.slider-hide
+				display none
+				
+			.slickexpandable
+				.slick-prev
+					visibility visible
+				
+				.slick-next
+					visibility visible
+					right auto
+					left 40*$px
+						
+			
+			&.slider-text-hl,
+			&.slider-hl-text
+				.content
+					margin-left 0
+			
+			&.single-post
+	
+				.hlblock
+					.meta-top
+						position relative
+					
+					h1
+						margin-bottom 0.7em	
+					
+					.meta-bottom
+						display none
+				
+				.comments,
+				.commentsform
+					position relative
+					visibility visible
+					opacity 1
+					width 100%
+					padding-top 40*$px
+				
+				.close
+					display none
+				
+				&.hl-pic-text
+					.comments,
+					.commentsform
+						right 0
+			
+			&.stripes
+				.content,
+				.hlblock
+					width 100%
+					height auto
+					text-align center
+
+					h2
+						font-size 34*$px
+						line-height 44*$px
+						span
+							display inline-block
+																	
+		&.tophead
+			.hlblock
+				height auto
+				
+				h1
+					padding 50*$px 20*$px 40*$px 20*$px
+					top 0
+					transform none
+
+			.filterlist
+				display none	
+
+			&.polaroid
+				.photostack
+					height 500*$px
+					
+					nav
+						span
+							display none
+			
+			.gmap
+				height 350*$px
+			
+			&.maps
+				
+				.togglebox,
+				.multilist
+					display block				
+
+				.hlblock
+					h1
+						padding 50*$px 20*$px 60*$px 20*$px
+				
+					.filterlist
+						display block
+			
+			.togglebox,
+			.multilist
+				display none				
+			
+			&.carousel
+				.carouselitems
+					.item
+						.text
+							background-color transparent
+
+			&.mixitup
+				.filteritems
+					height auto
+
+					&.news
+						.item
+							display block
+							width 100%
+							padding 20*$px 20*$px 20*$px 20*$px
+							margin-bottom 40*$px
+							border-left 0
+							border-bottom 1px solid $scrollbartrack_color
+							
+							.more
+								position relative
+								padding 0
+								text-indent 0
+								bottom auto
+								line-height auto
+								text-align left
+								font-size 1em
+								font-family $font_paragraph
+								text-transform uppercase
+								font-weight 700
+								letter-spacing: 0.1em;
+								-webkit-font-smoothing antialiased
+								
+								&:before
+									display none
+					&.services
+						.item
+							display block
+							width 100%
+							padding 20*$px 20*$px 20*$px 20*$px
+							margin-bottom 40*$px
+							margin-left 0
+							margin-right 0
+							border-left 0
+							border-bottom 1px solid $scrollbartrack_color
+							
+							a	
+								background-color $bg_dark_color
+								color $frame_color
+								text-align center
+								transition none
+								
+								i
+									opacity 1
+									visibility visible
+					&.team
+						.item
+							display block
+							height auto
+							width 100%
+							opacity 1 !important
+							visibility visible !important		
+
+							.pic
+								width 49%
+								height 100%
+								display inline-block
+								transition none
+								-webkit-filter none
+								
+								img
+									width 100%
+									height auto
+									
+									
+							.text
+								width 50%
+								position relative
+								display inline-block
+								height auto
+								transition none
+								visibility visible
+								opacity 1
+								padding-top 27*$px
+								padding-bottom 40*$px
+								bottom auto
+								top 0
+								vertical-align top
+								background-color transparent
+								
+								
+								p, .sub-info
+									visibility visible
+									opacity 1		
+						
+							&:hover
+								.text
+									height auto
+									bottom auto
+				
+				.pagerlist
+					display none
+
+		&.carousel
+			.carouselitems
+				height auto
+				padding 0
+							
+				.slick-track
+					width 100% !important
+					transform none !important
+
+				.item
+					height auto
+					width 100% !important
+					
+					.pic
+						width 49%
+						height 100%
+						display inline-block
+						transition none
+						-webkit-filter none
+						
+						img
+							width 100%
+							height auto
+																	
+					.text
+						width 50%
+						position relative
+						display inline-block
+						height auto
+						transition none
+						visibility visible
+						opacity 1
+						padding-top 27*$px
+						padding-bottom 40*$px
+						bottom auto
+						top 0
+						vertical-align top
+						background-color transparent
+						
+						p, .sub-info
+							visibility visible
+							opacity 1		
+				
+					&:hover
+						.text
+							height auto
+							bottom auto
+							background-color transparent
+
+			&.news
+				.item
+					display block
+					width 100%
+					padding 20*$px 20*$px 20*$px 20*$px
+					margin-bottom 40*$px
+					border-left 0
+					border-bottom 1px solid $scrollbartrack_color
+					
+					&.slick-cloned
+						display none
+					
+					.more
+						position relative
+						padding 0
+						text-indent 0
+						bottom auto
+						line-height auto
+						text-align left
+						font-size 1em
+						font-family $font_paragraph
+						text-transform uppercase
+						font-weight 700
+						letter-spacing: 0.1em;
+						-webkit-font-smoothing antialiased
+						
+						&:before
+							display none
+							
+			.slick-prev,
+			.slick-next
+				display none !important		
+
+@media only screen and (max-width: 568px) 
+	body
+		&:after
+			content 'res_phl'
+	
+	section
+		
+		&#hero
+			.tagline
+				margin-left 10*$px
+				margin-right 10*$px
+				padding-bottom 25*$px
+				background-color alpha($frame_color,0.7)
+		
+		article
+			h1
+				font-size 25*$px
+				line-height 44*$px
+
+			h2
+				font-size 23*$px
+									
+			h3
+				font-size 20*$px
+									
+			h4
+				font-size 18*$px
+
+			h5
+				font-size 16*$px
+									
+			h6
+				font-size 15*$px
+
+@media only screen and (max-width: 480px) 
+	body
+		&:after
+			content 'res_phs'
+	
+	section
+		&.carousel
+			.carouselitems
+				
+
+				.item
+					.pic
+						width 100%
+					.text
+						width 100%
+		
+		&.tophead
+			&.mixitup
+				.filteritems
+					&.team
+						.item
+							.pic
+								width 100%
+							.text
+								width 100%
+					&.services
+						.item
+							a
+								display block
+								margin-top 1em
+								width 100%
