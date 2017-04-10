@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="he" class="no-js">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Aenatcosmetic | עינת קוסמטיקה</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="home" href="/">
+    <!-- build:css css/style.min.css -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/salon-font.css">
+    <link rel="stylesheet" href="css/plugins.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- endbuild -->
+    <!-- build:js js/script.min.js -->
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="js/modernizr.min.js"></script>
+    <!-- endbuild -->
+</head>
+
+<body class="panelsnap onepage flexheader" ng-app="Aenat">
+
+    <div id="intro">
+        <div class="logo"></div>
+        <div class="loading">
+            <div class="loader1"></div>
+        </div>
+    </div>
+
+    <section id="hero" data-panel="hero" ng-controller="IntroController">
+        <div class="content imgLiquid">
+            <div class="tagline">
+                <h1>{{ Title }}</h1>
+                <h2>{{ Headline }}</h2>
+                <span class="subinfo">{{ Subline }}</span>
+            </div>
+            <img src="images/hero.jpg" alt="">
+        </div>
+    </section>
+    <header>
+        <h1><a class="brand-logo--wrapper" ng-href="{{ MAIN_URL }}" title="Aenatcosmetics"><img
+            src="images/logo/logo_sm.png"
+            alt="Aenatcosmetics"></a></h1>
+        <!--MENU -->
+        <nav id="mainmenu" class="menu-horizontal" ng-controller="MenuController">
+            <ul>
+                <li><a href="#hours" data-panel="hours">מידע</a>
+                    <ul class="sub-menu">
+                        <li><a href="#map" data-panel="map">מפה</a></li>
+                    </ul>
+                </li>
+                <li ng-repeat="i in menuitems | reverse"><a href="#{{ i.url }}" data-panel="{{ i.url }}">{{ i.title }}</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="socialshare" ng-controller="SocialsController">
+            <a id="socialshare_trigger" class="icon-"></a>
+            <nav class="animated">
+                <ul>
+                    <li class="{{ soc.name }}" ng-repeat="soc in socials"><a href="{{ soc.url }}">{{ soc.name }}</a></li>
+                </ul>
+            </nav>
+        </div>
+
+    </header>
+
+    <section id="about" data-panel="about" class="col-3 slider hl-text-slider" ng-controller="AboutController">
+        <article style="direction: rtl">
+            <div class="hlblock">
+                <h1>{{ Title }}</h1>
+            </div>
+            <div class="content">
+                <p>{{ Text }}</p>
+            </div>
+
+        </article>
+    </section>
+
+    <section id="services" data-panel="services" class="tophead mixitup sixmix" ng-controller="ServicesController">
+        <article>
+            <div class="hlblock">
+                <h1>{{ Title }}</h1>
+                <ul class="filterlist" data-label="סינון סוג: " data-default="All">
+                    <li><a class="filter active" data-filter="all">הכל</a></li>
+                    <li>
+                        <a class="filter" data-filter=".cat-{{ st.type }}" ng-repeat="st in Service">{{ st.type }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="filteritems services">
+                <div class="item cat-{{ s.type }}" ng-repeat="s in Service">
+                    <h3>{{ s.service.name }}</h3>
+                    <p>{{ s.service.info }}</p><a href="{{ s.service.url }}"><i>book now</i><span class="price">₪{{ s.service.price }}</span></a>
+                </div>
+            </div>
+            <div class="pagerlist dark"></div>
+        </article>
+    </section>
+
+    <section id="clients" data-panel="clients" class="col-2 panorama-left" ng-controller="ClientsController">
+        <article>
+            <div class="hlblock">
+                <h1>{{ Title }}</h1>
+            </div>
+            <div class="content panorama" data-panorama="{{ Image }}">
+                <a class="pan_controls icon-salon_play"></a>
+            </div>
+        </article>
+    </section>
+
+    <section id="brands" data-panel="brands" class="col-2 grid grid-right" ng-controller="BrandsController">
+        <article>
+            <div class="content slick">
+                <div class="slide">
+                    <ul class="grid4x4">
+                        <li class="item-{{ $index }}" ng-repeat="b in brands">
+                            <a href="{{ b.url }}"><img ng-src="{{ b.img }}" alt="{{ b.name }}"></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="hlblock">
+                <h1>{{ Title }}</h1>
+            </div>
+        </article>
+    </section>
+
+    <section id="contact" data-panel="contact" class="col-2 default-left" ng-controller="BookingController">
+        <article>
+            <div class="hlblock">
+                <h1>{{ Title }}</h1>
+                <p>
+                    {{ Info }}
+                </p>
+            </div>
+            <div class="content">
+                <form id="bookingform" method="POST" action="#" class="salonform">
+                    <div class="columns-1-2">
+                        <fieldset>
+                            <label>שם</label>
+                            <input type="text" name="name" placeholder="שם" data-validetta="required">
+                        </fieldset>
+                        <fieldset>
+                            <label>דואר אלקטרוני</label>
+                            <input type="text" name="email" placeholder="דואר אלקטרוני" data-validetta="required,email">
+                        </fieldset>
+                        <fieldset>
+                            <label>טלפון</label>
+                            <input type="text" name="phone" placeholder="טלפון" data-validetta="required">
+                        </fieldset>
+                    </div>
+                    <div class="columns-1-2">
+                        <fieldset class="select">
+                            <label>Service</label>
+                            <select name="service[]" multiple data-placeholder="Select your desired Service(s)">
+                                <optgroup label="Basic">
+                                    <option value="cut-style">Cut & Style</option>
+                                    <option value="quick-cut">Quick Cut</option>
+                                    <option value="wash-go">Wash & Go</option>
+                                    <option value="evening-style">Evening Style</option>
+                                </optgroup>
+                                <optgroup label="Color">
+                                    <option value="coloration">Coloration</option>
+                                    <option value="hightlights-lowlights">Highlights & Lowlights</option>
+                                    <option value="hightlights">Highlights</option>
+                                    <option value="balayage">Balayage</option>
+                                </optgroup>
+                            </select>
+                        </fieldset>
+                    </div>
+                    <fieldset class="submit">
+                        <input type="hidden" name="subject" value="נושא">
+                        <input type="hidden" name="formtype" value="פנייה מהאתר">
+                        <input type="submit" name="submit" value="שלח">
+                    </fieldset>
+                    <div class="status">Message successfully sent, thank you!</div>
+                </form>
+            </div>
+        </article>
+    </section>
+
+    <section id="hours" data-panel="hours" class="col-3 stripes stripes-1" ng-controller="BusinessDetailsController">
+        <article>
+            <div class="content">
+                <ul class="branchs">
+                    <li ng-repeat="b in branchs">
+                        <h3>{{ b.city }}</h3>
+                        <p><strong>{{ b.address }}</strong>
+                            <br/> {{ b.info }}
+                        </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="hlblock">
+                <h2>{{ Title }}</h2>
+            </div>
+        </article>
+    </section>
+
+    <section id="map" data-panel="map" class="tophead maps" ng-controller="LocationMapController">
+        <article>
+            <div class="hlblock">
+                <h1>{{ Title }}</h1>
+                <div class="filterlist maplist" data-label="סנן איזורים: " data-default="הכל"></div>
+            </div>
+            <div class="gmap">
+
+            </div>
+        </article>
+    </section>
+
+    <section id="end" ng-controller="FooterController">
+        <div class="content">
+            <div class="copyright">
+                <img src="images/logo/logo_no_text.png" alt="Aenatcosmetics">
+                <ul class="footer-links">
+                    <li ng-repeat="lnk in links"><a href="{{ lnk.url }}">{{ lnk.name }}</a></li>
+                </ul>
+                <p>{{ Copyrights }}</p>
+            </div>
+        </div>
+        <a id="back2top" class="backtotop icon-salon_arrowup">{{ BackBtnText }}</a>
+    </section>
+    <!-- build:js js/script.min.js -->
+    <script src="js/plugins.min.js"></script>
+    <script src="js/main.min.js"></script>
+    <script src="//maps.google.com/maps/api/js?sensor=false&amp;libraries=geometry&amp;v=3.7"></script>
+    <script src="js/google-scripts.js"></script>
+    <script src="app/app.js"></script>
+    <!-- endbuild -->
+</body>
+
+</html>
