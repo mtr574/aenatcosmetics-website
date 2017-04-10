@@ -4,13 +4,14 @@ Responsive website for my mother's cosmetic clinics
 
 ## Usage
 
-1. `bower install`
-2. `grunt`
-3. deploy dist folder
+1. `yarn`
+2. `bower install`
+3. `grunt`
+4. deploy dist folder
 
 ## Sections
 
-1. About the clinics
+1. About
 2. Service, details and prices
 3. Testimonials (customer feedback)
 4. Brands in use
