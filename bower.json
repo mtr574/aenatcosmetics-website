@@ -1,0 +1,17 @@
+{
+  "name": "aenatcosmetics-website",
+  "description": "Responsive website for my mother's cosmetic clinics",
+  "main": "index.js",
+  "authors": [
+    "Nate.Ben <mtr574@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/mtr574/aenatcosmetics-website",
+  "private": true,
+  "dependencies": {
+    "angular": "angularjs#1.5.4"
+  },
+  "devDependencies": {
+    "jquery": "2.2.3"
+  }
+}
