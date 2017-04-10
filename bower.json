@@ -9,9 +9,7 @@
   "homepage": "https://github.com/mtr574/aenatcosmetics-website",
   "private": true,
   "dependencies": {
-    "angular": "angularjs#1.5.4"
-  },
-  "devDependencies": {
+    "angular": "angularjs#1.5.4",
     "jquery": "2.2.3"
   }
 }
