@@ -2,6 +2,12 @@
 
 Responsive website for my mother's cosmetic clinics
 
+## Usage
+
+1. `bower install`
+2. `grunt`
+3. deploy dist folder
+
 ## Sections
 
 1. About the clinics
