@@ -18,7 +18,7 @@ module.exports = function(grunt) {
       },
       app: {
         files: {
-          'public/app/app.js': ['dist/app/app.js']
+          'dist/app/app.js': ['dist/app/app.js']
         }
       }
     },
@@ -30,24 +30,23 @@ module.exports = function(grunt) {
     },
     concat: {
       options: {
-        separator: ';',
         stripBanners: true
       },
       vendors: {
         src: [
-          'bower_components/jquery/dist/jquery.min.js', 'bower_components/angular/angular.min.js', 'js/modernizr.min.js'
+          'public/bower_components/jquery/dist/jquery.min.js', 'public/bower_components/angular/angular.min.js', 'public/js/modernizr.min.js'
         ],
         dest: 'dist/js/vendors.js'
       },
       init: {
         src: [
-          '!js/modernizr.min.js', 'js/*.js'
+          '!public/js/modernizr.min.js', 'public/js/*.js'
         ],
         dest: 'dist/js/init.js'
       },
       app: {
         src: [
-          'app/app.js', 'app/controllers/*.js'
+          'public/app/*.js', 'public/app/controllers/*.js'
         ],
         dest: 'dist/app/app.js'
       }
@@ -87,8 +86,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('default', [
     'copy',
-    'ngAnnotate',
     'es6transpiler',
+    'ngAnnotate',
     'useminPrepare',
     'concat:generated',
     'uglify:generated',
