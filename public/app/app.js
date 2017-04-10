@@ -1,4 +1,4 @@
-var app = angular.module('Aenat', []);
+let app = angular.module('Aenat', []);
 
 app.constant('DATA', {
     API_URL: '',

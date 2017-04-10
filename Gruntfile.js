@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         expand: true,
         cwd: 'public/',
         src: [
-          '**', '!js/**', '!css/**', '!bower_components/**'
+          '**', '!app/**', '!js/**', '!css/**', '!bower_components/**'
         ],
         dest: 'dist/'
       }
@@ -18,7 +18,7 @@ module.exports = function(grunt) {
       },
       app: {
         files: {
-          'dist/app/app.js': ['dist/app/app.js']
+          'dist/app/app.js': ['public/app/**/*.js']
         }
       }
     },
@@ -43,12 +43,6 @@ module.exports = function(grunt) {
           '!public/js/modernizr.min.js', 'public/js/*.js'
         ],
         dest: 'dist/js/init.js'
-      },
-      app: {
-        src: [
-          'public/app/*.js', 'public/app/controllers/*.js'
-        ],
-        dest: 'dist/app/app.js'
       }
     },
     uglify: {
@@ -72,7 +66,11 @@ module.exports = function(grunt) {
         ]
       }
     },
-    es6transpiler: {
+    babel: {
+      options: {
+        sourceMap: false,
+        presets: ['es2015']
+      },
       dist: {
         files: {
           'dist/app/app.js': 'dist/app/app.js'
@@ -85,9 +83,8 @@ module.exports = function(grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
   grunt.registerTask('default', [
-    'copy',
-    'es6transpiler',
-    'ngAnnotate',
+    'copy', 'ngAnnotate',
+    'babel',
     'useminPrepare',
     'concat:generated',
     'uglify:generated',
