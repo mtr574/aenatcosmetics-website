@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/plugins.css">
     <link rel="stylesheet" href="css/style.css">
     <!-- endbuild -->
-    <!-- build:js js/script.min.js -->
+    <!-- build:js js/vendors.min.js -->
     <script src="bower_components/jquery/dist/jquery.min.js"></script>
     <script src="bower_components/angular/angular.min.js"></script>
     <script src="js/modernizr.min.js"></script>
@@ -226,11 +226,13 @@
         </div>
         <a id="back2top" class="backtotop icon-salon_arrowup">{{ BackBtnText }}</a>
     </section>
-    <!-- build:js js/script.min.js -->
-    <script src="js/plugins.min.js"></script>
+    <!-- build:js js/init.min.js -->
+    <script src="js/plugins.js"></script>
     <script src="js/main.min.js"></script>
-    <script src="//maps.google.com/maps/api/js?sensor=false&amp;libraries=geometry&amp;v=3.7"></script>
+    <script src="js/google-maps-api.js"></script>
     <script src="js/google-scripts.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/app.min.js -->
     <script src="app/app.js"></script>
     <!-- endbuild -->
 </body>
