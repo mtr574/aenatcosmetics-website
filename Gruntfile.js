@@ -7,7 +7,7 @@ module.exports = function(grunt) {
         expand: true,
         cwd: 'public/',
         src: [
-          '**', '!app/**', '!js/**', '!css/**', '!bower_components/**'
+          '**', '!app/**', '!js/**', '!css/*', '!bower_components/**'
         ],
         dest: 'dist/'
       }
@@ -40,9 +40,15 @@ module.exports = function(grunt) {
       },
       init: {
         src: [
-          '!public/js/modernizr.min.js', 'public/js/*.js'
+          '!public/js/modernizr.min.js', 'public/js/plugins.js', 'public/js/main.js'
         ],
         dest: 'dist/js/init.js'
+      },
+      googleapi: {
+        src: [
+          'public/js/google-maps-api.js', 'public/js/google-scripts.js'
+        ],
+        dest: 'dist/js/googleapi.js'
       }
     },
     uglify: {
