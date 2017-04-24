@@ -155,12 +155,6 @@
 
   <section id="contact" data-panel="contact" class="col-2 grid grid-right" ng-controller="BookingController">
     <article>
-      <div class="hlblock">
-        <h1>{{ Title }}</h1>
-        <p>
-          {{ Info }}
-        </p>
-      </div>
       <div class="content">
         <form id="bookingform" method="POST" action="#" class="salonform">
           <div class="columns-1-2">
@@ -204,6 +198,12 @@
           <div class="status">Message successfully sent, thank you!</div>
         </form>
       </div>
+      <div class="hlblock">
+        <h1>{{ Title }}</h1>
+        <p>
+          {{ Info }}
+        </p>
+      </div>
     </article>
   </section>
 
@@ -213,9 +213,7 @@
         <h1>{{ Title }}</h1>
         <div class="filterlist maplist" data-label="סנן איזורים: " data-default="הכל"></div>
       </div>
-      <div class="gmap">
-
-      </div>
+      <div class="gmap"></div>
     </article>
   </section>
 
