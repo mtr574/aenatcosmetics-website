@@ -6,16 +6,16 @@ app.controller('MenuController', ($scope) => {
     title: 'שירותים',
     url: 'services'
   }, {
-    title: 'שעות פתיחה',
-    url: 'hours'
-  }, {
-    title: 'לקוחות',
-    url: 'clients'
-  }, {
     title: 'מוצרים',
     url: 'brands'
   }, {
+    title: 'שעות פתיחה',
+    url: 'hours'
+  }, {
     title: 'יצירת קשר',
     url: 'contact'
+  }, {
+    title: 'לקוחות',
+    url: 'clients'
   }];
 })

@@ -77,6 +77,12 @@
         <h1>{{ Title }}</h1>
       </div>
       <div class="content">
+        <img src="images/hero/18222229.jpg" alt="Aenat" style="
+          border-radius: 100%;
+          max-width: 300px;
+          display: flex;
+          margin: auto;
+          padding: 1.5em;">
         <p>{{ Text }}</p>
       </div>
 
@@ -136,7 +142,7 @@
   <section id="hours" data-panel="hours" class="col-3 stripes stripes-1" ng-controller="BusinessDetailsController">
     <article>
       <div class="hlblock">
-        <h2>{{ Title }}</h2>
+        <h1>{{ Title }}</h1>
       </div>
       <div class="content">
         <ul class="branchs">
@@ -168,37 +174,32 @@
               <label>טלפון</label>
               <input type="text" name="phone" placeholder="טלפון" data-validetta="required">
             </fieldset>
-          </div>
-          <div class="">
-            <fieldset class="select">
-              <label>Service</label>
-              <select name="service[]" multiple data-placeholder="Select your desired Service(s)">
-                                <optgroup label="Basic">
-                                    <option value="cut-style">Cut & Style</option>
-                                    <option value="quick-cut">Quick Cut</option>
-                                    <option value="wash-go">Wash & Go</option>
-                                    <option value="evening-style">Evening Style</option>
-                                </optgroup>
-                                <optgroup label="Color">
-                                    <option value="coloration">Coloration</option>
-                                    <option value="hightlights-lowlights">Highlights & Lowlights</option>
-                                    <option value="hightlights">Highlights</option>
-                                    <option value="balayage">Balayage</option>
-                                </optgroup>
-                            </select>
+            <fieldset>
+              <label>נושא</label>
+              <input type="text" name="title" placeholder="נושא">
             </fieldset>
           </div>
+          <!-- <div class="">
+            <fieldset class="select">
+              <label>Service</label>
+              <select name="service[]" multiple data-placeholder="ניתן לבחור שירות מהרשימה" ng-controller="ServicesController">
+                  <optgroup label="Basic">
+                      <option ng-repeat="s in Service" value="{{ s.service.service }}">{{ s.service.service }}</option>
+                  </optgroup>
+              </select>
+            </fieldset>
+          </div> -->
           <fieldset class="submit">
-            <input type="hidden" name="subject" value="נושא">
+            <input type="hidden" name="subject" value="פנייה מהאתר">
             <input type="hidden" name="formtype" value="פנייה מהאתר">
             <input type="submit" name="submit" value="שלח">
           </fieldset>
-          <div class="status">Message successfully sent, thank you!</div>
+          <div class="status">הודעה נשלחה בהצלחה!</div>
         </form>
       </div>
       <div class="hlblock">
         <h1>{{ Title }}</h1>
-        <p class="rtl">
+        <p class="rtl" style="text-align: left;">
           {{ Info }}
         </p>
       </div>

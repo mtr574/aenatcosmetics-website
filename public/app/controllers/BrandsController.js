@@ -1,5 +1,5 @@
 app.controller('BrandsController', ($scope) => {
-  $scope.Title = "מותגים";
+  $scope.Title = "מוצרים";
   $scope.brands = [{
     name: 'some brand',
     img: 'images/brands/brand-1.jpg',
