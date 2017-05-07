@@ -13,6 +13,7 @@
   <link rel="icon" sizes="128x128" href="favicon.ico">
   <link rel="apple-touch-icon" sizes="128x128" href="favicon.ico">
   <link rel="apple-touch-icon-precomposed" sizes="128x128" href="favicon.ico">
+  <link rel="manifest" href="/manifest.json">
   <link rel="home" href="/">
   <!-- build:css css/style.min.css -->
   <link rel="stylesheet" href="css/normalize.css">
@@ -53,12 +54,8 @@
     <!--MENU -->
     <nav id="mainmenu" class="menu-horizontal" ng-controller="MenuController">
       <ul>
-        <li><a href="#hours" data-panel="hours">מידע</a>
-          <ul class="sub-menu">
-            <li><a href="#map" data-panel="map">מפה</a></li>
-          </ul>
-        </li>
-        <li ng-repeat="i in menuitems | reverse"><a href="#{{ i.url }}" data-panel="{{ i.url }}">{{ i.title }}</a>
+        <li ng-repeat="i in menuitems">
+          <a href="#{{ i.url }}" data-panel="{{ i.url }}">{{ i.title }}</a>
         </li>
       </ul>
     </nav>
@@ -93,14 +90,15 @@
         <ul class="filterlist" data-label="סינון סוג: " data-default="All">
           <li><a class="filter active" data-filter="all">הכל</a></li>
           <li>
-            <a class="filter" data-filter=".cat-{{ st.type }}" ng-repeat="st in Service">{{ st.type }}</a>
+            <a class="filter" data-filter=".cat-{{ st.type | trim }}" ng-repeat="st in Service">{{ st.type }}</a>
           </li>
         </ul>
       </div>
       <div class="filteritems services">
-        <div class="item cat-{{ s.type }}" ng-repeat="s in Service">
-          <h3>{{ s.service.name }}</h3>
-          <p>{{ s.service.info }}</p><a href="{{ s.service.url }}"><i>book now</i><span class="price">₪{{ s.service.price }}</span></a>
+        <div class="item cat-{{ s.type | trim }}" ng-repeat="s in Service">
+          <h3 class="rtl">{{ s.service.name }}</h3>
+          <p class="rtl">{{ s.service.info }}</p>
+          <!-- <a href="{{ s.service.url }}"><i>book now</i><span class="price">₪{{ s.service.price }}</span></a> -->
         </div>
       </div>
       <div class="pagerlist dark"></div>
@@ -156,8 +154,8 @@
   <section id="contact" data-panel="contact" class="col-2 grid grid-right" ng-controller="BookingController">
     <article>
       <div class="content">
-        <form id="bookingform" method="POST" action="#" class="salonform">
-          <div class="columns-1-2">
+        <form id="bookingform" method="POST" action="#" class="salonform" style="padding: 4em 2em 0;">
+          <div class="">
             <fieldset>
               <label>שם</label>
               <input type="text" name="name" placeholder="שם" data-validetta="required">
@@ -171,7 +169,7 @@
               <input type="text" name="phone" placeholder="טלפון" data-validetta="required">
             </fieldset>
           </div>
-          <div class="columns-1-2">
+          <div class="">
             <fieldset class="select">
               <label>Service</label>
               <select name="service[]" multiple data-placeholder="Select your desired Service(s)">
@@ -200,22 +198,32 @@
       </div>
       <div class="hlblock">
         <h1>{{ Title }}</h1>
-        <p>
+        <p class="rtl">
           {{ Info }}
         </p>
       </div>
     </article>
   </section>
 
-  <section id="map" data-panel="map" class="col-2 default-left maps" ng-controller="LocationMapController">
+  <section class="col-2 testimonials testimonials-left" ng-controller="TestemonialsController">
     <article>
       <div class="hlblock">
         <h1>{{ Title }}</h1>
-        <div class="filterlist maplist" data-label="סנן איזורים: " data-default="הכל"></div>
       </div>
-      <div class="gmap"></div>
+      <div class="content slick">
+        <div class="slide" ng-repeat="tell in Testemonials">
+          <div class="testimonial icon-salon_quote">
+            <p>{{ tell.text }}</p>
+            <span class="client-name">{{ tell.name }}</span>
+            <span class="client-info">{{ tell.service }}</span>
+          </div>
+          <!--testimonial-->
+        </div>
+        <!--slide-->
+      </div>
     </article>
   </section>
+
 
   <section id="end" ng-controller="FooterController">
     <div class="content">
@@ -234,8 +242,6 @@
   <script src="js/main.js"></script>
   <!-- endbuild -->
   <!-- build:js js/googleapi.min.js -->
-  <script src="js/google-maps-api.js"></script>
-  <script src="js/google-scripts.js"></script>
   <script src="js/google-analytics.js"></script>
   <!-- endbuild -->
   <script src="app/app.js"></script>

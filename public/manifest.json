@@ -1,0 +1,13 @@
+{
+  "name": "Aenatcosmetic | עינת קוסמטיקה",
+  "short_name": "Aenatcosmetic",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "Cosmetics products and services",
+  "icons": [{
+    "src": "images/logo/logo_no_text.png",
+    "sizes": "48x48",
+    "type": "image/png"
+  }]
+}

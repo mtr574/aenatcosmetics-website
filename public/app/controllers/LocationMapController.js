@@ -1,3 +1,3 @@
-app.controller('LocationMapController', function ($scope) {
+app.controller('LocationMapController', ($scope) => {
     $scope.Title = "מיקומים";
 });

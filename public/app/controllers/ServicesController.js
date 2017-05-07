@@ -1,22 +1,48 @@
-app.controller('ServicesController', function ($scope) {
-
-    $scope.Title = "שירותים";
-    $scope.Service = [{
-        type: 'כללי',
-        service: {
-            name: 'basic color',
-            info: 'info',
-            url: 'url',
-            price: '99'
-        }
+app.controller('ServicesController', function($scope) {
+  $scope.Title = "שירותים";
+  $scope.Service = [{
+      type: 'הסרת שיער',
+      service: {
+        name: 'I.P.L',
+        info: 'טכנולוגיה שהוכיחה את עצמה כבר כמה שנים. תוצאות מרשימות, מתאים לאזורים גדולים אפילציה מתאים לכל לכל סוגי שיער, באיזורים קטנים, מתאים לשיעור הומונאלי.',
+        url: '/blog/hair-removal',
+        price: ''
+      }
+    },
+    {
+      type: 'איפור קבוע בשיטת השערה',
+      service: {
+        name: 'איפור קבוע והדגשת תווי פנים',
+        info: '-מחומרים היפואלרגנים, -מתאים לגבות דלילות ולכל מי שמעונינת לקום מאופרת בבוקר. איפור ערב. הלחמת ריסים',
+        url: '/blog/permanent-makeup',
+        price: ''
+      }
     }, {
-        type: 'סוג',
-        service: {
-            name: 'hair remove',
-            info: 'info about hair remove',
-            url: 'url',
-            price: '299'
-        }
-    }];
-
+      type: 'טיפולי פנים',
+      service: {
+        name: 'טיפולי פנים מגוונים, וזאת לאחר איבחון עור.',
+        info: '- איבחון וצורך עור המטופל, תוך שימוש בחומרים של חווה זיגבויים. - מיכשור מתקדם ויעיל. - עיסוי באבנים חמות, לזרימת הדם וחידוש ריענון ופינוק.',
+        url: '/blog/face-care',
+        price: ''
+      }
+    },
+    {
+      type: 'הלחמות ריסים',
+      service: {
+        name: 'הלחמות ריסים',
+        info: '',
+        url: '/',
+        price: '0'
+      }
+    },
+    {
+      type: 'טיפולים אסתטיים',
+      service: {
+        name: 'טיפולים אסתטיים',
+        info: '',
+        url: '/',
+        price: '0'
+      }
+    }
+  ];
 });

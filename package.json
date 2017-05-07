@@ -4,7 +4,8 @@
   "description": "Responsive website for my mother's cosmetic clinics",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "build": "bower install && grunt",
+    "start": "http-server dist"
   },
   "repository": {
     "type": "git",

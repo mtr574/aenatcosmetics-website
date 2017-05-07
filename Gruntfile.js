@@ -46,7 +46,7 @@ module.exports = function(grunt) {
       },
       googleapi: {
         src: [
-          'public/js/google-maps-api.js', 'public/js/google-scripts.js'
+          'public/js/google-analytics.js'
         ],
         dest: 'dist/js/googleapi.js'
       }
@@ -59,17 +59,15 @@ module.exports = function(grunt) {
     },
     cssmin: {
       target: {
-        files: [
-          {
-            expand: true,
-            cwd: 'css',
-            src: [
-              '*.css', '!*.min.css'
-            ],
-            dest: 'dist/css',
-            ext: '.min.css'
-          }
-        ]
+        files: [{
+          expand: true,
+          cwd: 'css',
+          src: [
+            '*.css', '!*.min.css'
+          ],
+          dest: 'dist/css',
+          ext: '.min.css'
+        }]
       }
     },
     babel: {
