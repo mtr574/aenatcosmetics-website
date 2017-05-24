@@ -3,7 +3,7 @@ app.controller('BusinessDetailsController', ($scope) => {
   $scope.Hours = "8:30 - 18:00";
   $scope.HoursFriday = "8:30 - 13:00";
   // Branches
-  $scope.branchs = [{
+  $scope.branches = [{
     city: 'הרצליה',
     address: 'המסילה 32 הרצליה',
     info: ''

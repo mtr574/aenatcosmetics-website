@@ -99,6 +99,12 @@
     display: none;
 }
 
+.flex-center {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 /* Scrollbars
 */
 ::-webkit-scrollbar-track {
@@ -1577,6 +1583,7 @@ body.topheader #hero {
     left: 0;
     right: 0;
     margin: 0 auto;
+    z-index: 1;
 }
 
 #hero .tagline h1 {
@@ -3372,7 +3379,7 @@ section.tophead.mixitup .filteritems.services .item {
     padding-top: 0.9375rem;
     cursor: pointer;
     position: relative;
-    border-bottom: 1px dotted #c5c7cb;
+    border-bottom: 1px solid #c5c7cb;
 }
 
 section.tophead.mixitup .filteritems.services .item h3 {

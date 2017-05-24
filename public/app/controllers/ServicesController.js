@@ -1,5 +1,5 @@
 app.controller('ServicesController', function($scope) {
-  $scope.Title = "שירותים";
+  $scope.Title = "טיפולים";
   $scope.Service = [{
       type: 'הסרת שיער',
       service: {

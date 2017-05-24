@@ -1,6 +1,6 @@
 app.controller('FooterController', ($scope) => {
   $scope.Copyrights = "עינת קוסמטיקה פרא רפואית";
-  $scope.BackBtnText = "back to top";
+  $scope.BackBtnText = "חזרה להתחלה";
   // $scope.links = [{
   //   name: 'About',
   //   url: 'links'
